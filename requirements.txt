@@ -1,0 +1,34 @@
+## Web Application
+Django==1.9.7
+django-autoslug==1.9.3
+django-dotenv==1.4.1
+django-grappelli==2.8.1
+django-model-utils==2.5
+whitenoise==3.2
+gunicorn==19.6.0
+
+## Database Requirements
+dj-database-url==0.4.1
+psycopg2==2.6.1
+
+## Social Authentication
+python-social-auth==0.2.19
+python3-openid==3.0.10
+oauthlib==1.1.2
+requests==2.10.0
+requests-oauthlib==0.6.2
+PyJWT==1.4.1
+defusedxml==0.4.1
+
+## Other Dependencies
+six==1.10.0
+python-dateutil==2.5.3
+
+## Testing
+nose==1.3.7
+coverage==4.1
+
+## Pip Stuff
+pip==8.1.2
+setuptools==24.0.3
+wheel==0.29.0
