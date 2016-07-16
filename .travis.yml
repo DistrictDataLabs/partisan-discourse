@@ -1,0 +1,36 @@
+language: python
+python:
+  - '3.5.1'
+
+before_install:
+  - pip install nose
+  - pip install coverage
+  - pip install coveralls
+
+install: pip install -r requirements.txt
+
+before_script:
+  - psql -c 'create database partisan;' -U postgres
+
+script: make test
+
+after_success: coveralls
+
+env:
+  global:
+    - DJANGO_SETTINGS_MODULE=partisan.settings.testing
+    - SECRET_KEY=supersecretkey
+    - DATABASE_URL=postgres://localhost/partisan
+    - EMAIL_HOST_USER=''
+    - EMAIL_HOST_PASSWORD=''
+    - GOOGLE_OAUTH2_KEY=''
+    - GOOGLE_OAUTH2_SECRET=''
+
+notifications:
+  email:
+    recipients:
+      - bbengfort@districtdatalabs.com
+      - tojeda@districtdatalabs.com
+      - rbilbro@districtdatalabs.com
+    on_success: change
+    on_failure: always
