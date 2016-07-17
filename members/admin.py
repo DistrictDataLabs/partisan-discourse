@@ -1,5 +1,5 @@
 # members.admin
-# Administrative interface for members in Trinket.
+# Administrative interface for members in Partisan Discourse.
 #
 # Author:   Benjamin Bengfort <bbengfort@districtdatalabs.com>
 # Created:  Sat Aug 22 09:24:11 2015 -0500
@@ -10,7 +10,7 @@
 # ID: admin.py [] benjamin@bengfort.com $
 
 """
-Administrative interface for members in Trinket.
+Administrative interface for members in Partisan Discourse.
 """
 
 ##########################################################################
