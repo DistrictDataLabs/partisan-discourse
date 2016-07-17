@@ -24,6 +24,7 @@ from django.views.generic import TemplateView
 
 from rest_framework import viewsets
 from rest_framework.response import Response
+from rest_framework.permissions import AllowAny
 
 ##########################################################################
 ## Views
@@ -47,6 +48,8 @@ class HeartbeatViewSet(viewsets.ViewSet):
     """
     Endpoint for heartbeat checking, including the status and version.
     """
+
+    permission_classes = [AllowAny]
 
     def list(self, request):
         return Response({
