@@ -7,7 +7,7 @@
 # Copyright (C) 2016 District Data Labs
 # For license information, see LICENSE.txt
 #
-# ID: wsgi.py [] benjamin@bengfort.com $
+# ID: wsgi.py [5277a6e] benjamin@bengfort.com $
 
 """
 WSGI config for partisan project.

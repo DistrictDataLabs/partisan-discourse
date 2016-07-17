@@ -1,16 +1,16 @@
-# partisan.tests
-# Tests for the complete partisan package.
+# members.migrations
+# Database migrations for the members app.
 #
 # Author:   Benjamin Bengfort <bbengfort@districtdatalabs.com>
-# Created:  Sat Jul 16 11:36:08 2016 -0400
+# Created:  Sun Jul 17 18:46:16 2016 -0400
 #
 # Copyright (C) 2016 District Data Labs
 # For license information, see LICENSE.txt
 #
-# ID: __init__.py [80822db] benjamin@bengfort.com $
+# ID: __init__.py [] benjamin@bengfort.com $
 
 """
-Tests for the complete partisan package.
+Database migrations for the members app.
 """
 
 ##########################################################################

@@ -7,7 +7,7 @@
 # Copyright (C) 2016 District Data Labs
 # For license information, see LICENSE.txt
 #
-# ID: __init__.py [] benjamin@bengfort.com $
+# ID: __init__.py [5277a6e] benjamin@bengfort.com $
 
 """
 Settings module for the Partisan Discourse application

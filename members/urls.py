@@ -1,26 +1,30 @@
-# partisan
-# The project module for the Partisan Discourse web application.
+# members.urls
+# URLs for routing the members app.
 #
 # Author:   Benjamin Bengfort <bbengfort@districtdatalabs.com>
-# Created:  Sat Jul 16 11:38:44 2016 -0400
+# Created:  Fri Feb 12 23:30:10 2016 -0500
 #
 # Copyright (C) 2016 District Data Labs
 # For license information, see LICENSE.txt
 #
-# ID: __init__.py [5277a6e] benjamin@bengfort.com $
+# ID: urls.py [] benjamin@bengfort.com $
 
 """
-The project module for the Partisan Discourse web application.
+URLs for routing the members app.
 """
 
 ##########################################################################
 ## Imports
 ##########################################################################
 
-from .version import get_version
+from django.conf.urls import url
+from members.views import *
 
 ##########################################################################
-## Project Info
+## URL Patterns
 ##########################################################################
 
-__version__ = get_version()
+urlpatterns = (
+    url(r'^members/$', MemberListView.as_view(), name='list'),
+    url(r'^(?P<slug>[\w-]+)/$', MemberView.as_view(), name='detail'),
+)

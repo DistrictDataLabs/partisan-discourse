@@ -7,7 +7,7 @@
 # Copyright (C) 2016 District Data Labs
 # For license information, see LICENSE.txt
 #
-# ID: base.py [] benjamin@bengfort.com $
+# ID: base.py [5277a6e] benjamin@bengfort.com $
 
 """
 The common Django settings for the partisan project.
@@ -29,6 +29,7 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 import os
 import dj_database_url
 
+from partisan.utils import htmlize
 
 ##########################################################################
 ## Helper function for environmental settings
@@ -109,9 +110,12 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
 
     # Third party apps
+    'rest_framework',
     'social.apps.django_app.default',
+    'django_gravatar',
 
     # Partisan Discourse apps
+    'members',
 ]
 
 ## Request Handling
@@ -174,6 +178,23 @@ TEMPLATES = [
 ]
 
 ##########################################################################
+## Gravatar Configuration
+##########################################################################
+
+GRAVATAR_DEFAULT_SIZE   = 512
+GRAVATAR_DEFAULT_IMAGE  = 'identicon'
+GRAVATAR_DEFAULT_RATING = 'r'
+GRAVATAR_ICON_SIZE      = 30
+
+##########################################################################
+## MarkupField Configuration
+##########################################################################
+
+MARKUP_FIELD_TYPES = (
+    ('markdown', htmlize),
+)
+
+##########################################################################
 ## Authentication
 ##########################################################################
 
@@ -220,24 +241,24 @@ SOCIAL_AUTH_RAISE_EXCEPTIONS = False
 ## Django REST Framework
 ##########################################################################
 
-# REST_FRAMEWORK = {
-#
-#     ## API Authentication
-#     'DEFAULT_AUTHENTICATION_CLASSES': (
-#         'rest_framework.authentication.SessionAuthentication',
-#     ),
-#
-#     ## Default permissions to access the API
-#     'DEFAULT_PERMISSION_CLASSES': (
-#         'rest_framework.permissions.IsAuthenticated',
-#     ),
-#
-#     ## Pagination in the API
-#     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-#     'PAGINATE_BY': 50,
-#     'PAGINATE_BY_PARAM': 'per_page',
-#     'MAX_PAGINATE_BY': 200,
-# }
+REST_FRAMEWORK = {
+
+    ## API Authentication
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+
+    ## Default permissions to access the API
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+
+    ## Pagination in the API
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGINATE_BY': 50,
+    'PAGINATE_BY_PARAM': 'per_page',
+    'MAX_PAGINATE_BY': 200,
+}
 
 ##########################################################################
 ## Logging and Error Reporting

@@ -1,9 +1,12 @@
 ## Web Application
 Django==1.9.7
+djangorestframework==3.4.0
 django-autoslug==1.9.3
 django-dotenv==1.4.1
 django-grappelli==2.8.1
+django-gravatar2==1.4.0
 django-model-utils==2.5
+django-markupfield==1.4.0
 whitenoise==3.2
 gunicorn==19.6.0
 
@@ -23,6 +26,11 @@ defusedxml==0.4.1
 ## Other Dependencies
 six==1.10.0
 python-dateutil==2.5.3
+
+## Markup Dependencies
+Markdown==2.6.6
+bleach==1.4.3
+html5lib==0.9999999
 
 ## Testing
 nose==1.3.7

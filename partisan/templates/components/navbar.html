@@ -1,0 +1,75 @@
+{% load gravatar %}
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+  <div class="container">
+
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">
+        <i class="fa fa-comment"></i> Political Discourse <sup><small>beta</small></sup>
+      </a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="navbar-tabs">
+
+      <!-- Navbar tabs left -->
+      <ul class="nav navbar-nav navbar-left">
+        {% if user.is_authenticated %}
+        {% endif %}
+      </ul><!-- end navbar left -->
+
+      <!-- Navbar dropdown right -->
+      <ul class="nav navbar-nav navbar-right">
+        {% if user.is_authenticated %}
+        <li class="dropdown">
+
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <img src="{% gravatar_url user.email 24 %}" class="profile-image img-rounded" />
+            {% if user.first_name %}{{ user.first_name }} {{ user.last_name }}{% else %}{{ user.username }}{% endif %}
+            <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            {% if user.is_staff %}
+              <li class="dropdown-header">Administration</li>
+              <li>
+                <a href="{% url 'admin:index' %}">
+                  <i class="fa fa-cog"></i> Management
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'api:api-root' %}">
+                  <i class="fa fa-cogs"></i> API Docs
+                </a>
+              </li>
+              <li class="sep"></li>
+              {% endif %}
+              <li class="dropdown-header">User Settings</li>
+              <li>
+                <a href="{{ user.profile.get_absolute_url }}">
+                  <i class="fa fa-user"></i> View Profile
+                </a>
+              </li>
+              <li>
+                <a href="{% url 'logout' %}">
+                  <i class="fa fa-sign-out"></i>  Log out
+                </a>
+              </li>
+          </ul>
+        </li>
+        {% else %}
+        <li>
+          <a href="{% url 'login' %}">
+            <i class="fa fa-sign-in"></i>
+            Log In
+          </a>
+        </li>
+        {% endif %}
+
+      </ul><!-- end navbar right -->
+    </div><!--/.nav-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>

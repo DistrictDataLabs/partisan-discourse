@@ -1,26 +1,31 @@
-# partisan
-# The project module for the Partisan Discourse web application.
+# members.apps
+# Describes the Members application for Django
 #
 # Author:   Benjamin Bengfort <bbengfort@districtdatalabs.com>
-# Created:  Sat Jul 16 11:38:44 2016 -0400
+# Created:  Sat Aug 22 10:41:24 2015 -0500
 #
-# Copyright (C) 2016 District Data Labs
+# Copyright (C) 2015 District Data Labs
 # For license information, see LICENSE.txt
 #
-# ID: __init__.py [5277a6e] benjamin@bengfort.com $
+# ID: apps.py [] benjamin@bengfort.com $
 
 """
-The project module for the Partisan Discourse web application.
+Describes the Members application for Django
 """
 
 ##########################################################################
 ## Imports
 ##########################################################################
 
-from .version import get_version
+from django.apps import AppConfig
 
 ##########################################################################
-## Project Info
+## Members Config
 ##########################################################################
 
-__version__ = get_version()
+class MembersConfig(AppConfig):
+    name = 'members'
+    verbose_name = "Member Profiles"
+
+    def ready(self):
+        import members.signals

@@ -7,7 +7,7 @@
 # Copyright (C) 2016 District Data Labs
 # For license information, see LICENSE.txt
 #
-# ID: testing.py [] benjamin@bengfort.com $
+# ID: testing.py [5277a6e] benjamin@bengfort.com $
 
 """
 Testing settings to enable testing on Travis with Django tests.
@@ -52,7 +52,7 @@ STATIC_ROOT        = "/tmp/partisan-discourse/static"
 ## Django REST Framework
 ##########################################################################
 
-# REST_FRAMEWORK['DEFAULT_AUTHENTICATION_CLASSES'] = (
-#     'rest_framework.authentication.SessionAuthentication',
-#     'rest_framework.authentication.BasicAuthentication',
-# )
+REST_FRAMEWORK['DEFAULT_AUTHENTICATION_CLASSES'] = (
+    'rest_framework.authentication.SessionAuthentication',
+    'rest_framework.authentication.BasicAuthentication',
+)

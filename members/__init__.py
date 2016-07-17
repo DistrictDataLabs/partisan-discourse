@@ -1,26 +1,24 @@
-# partisan
-# The project module for the Partisan Discourse web application.
+# members
+# The members app manages information about our users (DDL members).
 #
 # Author:   Benjamin Bengfort <bbengfort@districtdatalabs.com>
-# Created:  Sat Jul 16 11:38:44 2016 -0400
+# Created:  Sat Aug 22 09:23:38 2015 -0500
 #
 # Copyright (C) 2016 District Data Labs
 # For license information, see LICENSE.txt
 #
-# ID: __init__.py [5277a6e] benjamin@bengfort.com $
+# ID: __init__.py [] benjamin@bengfort.com $
 
 """
-The project module for the Partisan Discourse web application.
+The members app manages information about our users (DDL members).
 """
 
 ##########################################################################
 ## Imports
 ##########################################################################
 
-from .version import get_version
-
 ##########################################################################
-## Project Info
+## Configuration
 ##########################################################################
 
-__version__ = get_version()
+default_app_config = 'members.apps.MembersConfig'

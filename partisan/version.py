@@ -7,7 +7,7 @@
 # Copyright (C) 2015 District Data Labs
 # For license information, see LICENSE.txt
 #
-# ID: version.py [] benjamin@bengfort.com $
+# ID: version.py [80822db] benjamin@bengfort.com $
 
 """
 Helper module for managing versioning information
