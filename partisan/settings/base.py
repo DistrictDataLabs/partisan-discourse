@@ -7,7 +7,7 @@
 # Copyright (C) 2016 District Data Labs
 # For license information, see LICENSE.txt
 #
-# ID: base.py [] benjamin@bengfort.com $
+# ID: base.py [5277a6e] benjamin@bengfort.com $
 
 """
 The common Django settings for the partisan project.

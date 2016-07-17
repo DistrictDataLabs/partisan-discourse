@@ -7,7 +7,7 @@
 # Copyright (C) 2015 District Data Labs
 # For license information, see LICENSE.txt
 #
-# ID: urls.py [] benjamin@bengfort.com $
+# ID: urls.py [5277a6e] benjamin@bengfort.com $
 
 """
 Partisan Discourse URL Configuration
