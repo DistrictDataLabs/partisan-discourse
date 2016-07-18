@@ -21,6 +21,7 @@ import partisan
 
 from datetime import datetime
 from django.views.generic import TemplateView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from rest_framework import viewsets
 from rest_framework.response import Response
@@ -31,7 +32,7 @@ from rest_framework.permissions import AllowAny
 ##########################################################################
 
 
-class HomePageView(TemplateView):
+class HomePageView(LoginRequiredMixin, TemplateView):
 
     template_name = "site/home.html"
 

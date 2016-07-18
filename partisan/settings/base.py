@@ -115,6 +115,7 @@ INSTALLED_APPS = [
     'django_gravatar',
 
     # Partisan Discourse apps
+    'corpus',
     'members',
 ]
 
@@ -195,6 +196,13 @@ MARKUP_FIELD_TYPES = (
 )
 
 ##########################################################################
+## bit.ly API Configuration
+##########################################################################
+
+BITLY_API_ADDRESS  = "https://api-ssl.bitly.com"
+BITLY_ACCESS_TOKEN = environ_setting("BITLY_ACCESS_TOKEN", "")
+
+##########################################################################
 ## Authentication
 ##########################################################################
 
@@ -215,7 +223,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LOGIN_URL = '/login/google-oauth2/'
+LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = "home"
 
 ## Support for Social Auth authentication backends
