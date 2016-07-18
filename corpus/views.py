@@ -17,6 +17,8 @@ Views for the corpus application
 ## Imports
 ##########################################################################
 
+from django.views.generic import DetailView
+
 from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.response import Response
@@ -32,6 +34,10 @@ from corpus.exceptions import CorpusException
 ## Views
 ##########################################################################
 
+class DocumentDetail(DetailView):
+
+    model = Document
+    template_name = 'corpus/document.html'
 
 ##########################################################################
 ## API HTTP/JSON Views

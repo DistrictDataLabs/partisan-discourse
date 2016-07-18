@@ -20,7 +20,9 @@ Database models for the corpus app
 from django.db import models
 from autoslug import AutoSlugField
 from partisan.utils import nullable
+from django.core.urlresolvers import reverse
 from model_utils.models import TimeStampedModel
+from picklefield.fields import PickledObjectField
 
 
 ##########################################################################
@@ -36,8 +38,8 @@ class Document(TimeStampedModel):
     long_url  = models.URLField(max_length=2000, unique=True)                # The long url for the document
     short_url = models.URLField(max_length=30, **nullable)                   # The bit.ly shortened url
     raw_html  = models.TextField(**nullable)                                 # The html content fetched (hopefully)
-    content   = models.TextField(**nullable)                                 # The preprocessed NLP content in a parsable text representation
-    signature = models.CharField(max_length=28, editable=False, **nullable)  # A base64 encoded hash of the content
+    content   = PickledObjectField(**nullable)                                 # The preprocessed NLP content in a parsable text representation
+    signature = models.CharField(max_length=44, editable=False, **nullable)  # A base64 encoded hash of the content
     n_words   = models.SmallIntegerField(**nullable)                         # The word count of the document
     n_vocab   = models.SmallIntegerField(**nullable)                         # The size of the vocabulary used
 
@@ -50,6 +52,12 @@ class Document(TimeStampedModel):
         db_table = "documents"
         get_latest_by = "created"
         unique_together = ("long_url", "short_url")
+
+    def get_absolute_url(self):
+        """
+        Returns the detail view url for the object
+        """
+        return reverse('corpus:document-detail', args=(self.id,))
 
     def __str__(self):
         if self.title: return self.title

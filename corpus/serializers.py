@@ -30,12 +30,13 @@ class DocumentSerializer(serializers.HyperlinkedModelSerializer):
     Only allows the POST/PUT of a long_url and shows the document detail.
     """
 
+    detail = serializers.URLField(source='get_absolute_url', read_only=True)
     labels = serializers.StringRelatedField(many=True, read_only=True)
 
     class Meta:
         model  = Document
         fields = (
-            'url', 'title', 'long_url', 'short_url',
+            'url', 'detail', 'title', 'long_url', 'short_url',
             'signature', 'n_words', 'n_vocab', 'labels',
         )
         read_only_fields = (

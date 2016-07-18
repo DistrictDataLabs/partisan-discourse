@@ -1,0 +1,12 @@
+{# A template for viewing preprocessed text #}
+{% for paragraph in content %}
+  <p class="preprocessed-paragraph">
+    {% for sentence in paragraph %}
+    <span class="preprocessed-sentence">
+      {% for token, tag in sentence %}
+      <span class="preprocessed-token tag-{{ tag }}" title data-toggle="tooltip" data-original-title="{{ tag }}">{{ token }} </span>
+      {% endfor %}
+    </span>
+    {% endfor %}
+  </p>
+{% endfor %}

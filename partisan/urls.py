@@ -75,5 +75,6 @@ urlpatterns = [
 
     # Member, and Organization URLs
     # !important: must be last and ordered specifically
+    url('', include('corpus.urls', namespace='corpus')),
     url('', include('members.urls', namespace='member')),
 ]
