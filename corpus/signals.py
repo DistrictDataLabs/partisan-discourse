@@ -26,7 +26,6 @@ from corpus.bitly import shorten
 from corpus.models import Document
 from partisan.utils import signature
 from corpus.exceptions import FetchError
-from requests.exceptions import HTTPError
 
 ##########################################################################
 ## Document Signals
@@ -46,13 +45,13 @@ def fetch_document_on_create(sender, instance, *args, **kwargs):
 
     # If there is no raw_html, fetch it with the requests module.
     if not instance.raw_html:
-        # Get the response and check if it exists
-        response = requests.get(instance.long_url)
 
-        # Raise an exception on a bad status code
         try:
+            # Get the response and check if it exists
+            # Raise an exception on a bad status code
+            response = requests.get(instance.long_url)
             response.raise_for_status()
-        except HTTPError as e:
+        except Exception as e:
             raise FetchError(
                 "Could not fetch document: {}".format(e)
             )

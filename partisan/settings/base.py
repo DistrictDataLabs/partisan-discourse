@@ -223,7 +223,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-LOGIN_URL = '/login/google-oauth2/'
+LOGIN_URL = '/accounts/login/'
 LOGIN_REDIRECT_URL = "home"
 
 ## Support for Social Auth authentication backends
