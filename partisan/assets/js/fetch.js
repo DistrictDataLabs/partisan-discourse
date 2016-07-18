@@ -41,7 +41,7 @@
           "data": JSON.stringify(data),
           "contentType": "application/json"
       }).done(function(data) {
-          toggleURLForm();
+        
           if (data.detail) {
             window.location = data.detail;
           } else {
