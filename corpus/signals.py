@@ -22,9 +22,11 @@ import requests
 from django.dispatch import receiver
 from django.db.models.signals import pre_save, post_save
 
+from corpus.bitly import shorten
 from corpus.models import Document
-from partisan.utils import signature, bitly_shorten
-
+from partisan.utils import signature
+from corpus.exceptions import FetchError
+from requests.exceptions import HTTPError
 
 ##########################################################################
 ## Document Signals
@@ -40,10 +42,20 @@ def fetch_document_on_create(sender, instance, *args, **kwargs):
 
     # Fetch the bit.ly URL if it doesn't already have one.
     if not instance.short_url:
-        instance.short_url = bitly_shorten(instance.long_url)
+        instance.short_url = shorten(instance.long_url)
 
     # If there is no raw_html, fetch it with the requests module.
     if not instance.raw_html:
+        # Get the response and check if it exists
         response = requests.get(instance.long_url)
-        if response.status_code == 200:
-            instance.raw_html = response.text
+
+        # Raise an exception on a bad status code
+        try:
+            response.raise_for_status()
+        except HTTPError as e:
+            raise FetchError(
+                "Could not fetch document: {}".format(e)
+            )
+
+        # Otherwise set the raw html on the instance
+        instance.raw_html = response.text

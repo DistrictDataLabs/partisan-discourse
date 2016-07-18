@@ -32,11 +32,14 @@ class Document(TimeStampedModel):
     Describes a document that is part of one or more corpora.
     """
 
+    title     = models.CharField(max_length=255, **nullable)                 # The title of the document, extracted from HTML
     long_url  = models.URLField(max_length=2000, unique=True)                # The long url for the document
     short_url = models.URLField(max_length=30, **nullable)                   # The bit.ly shortened url
     raw_html  = models.TextField(**nullable)                                 # The html content fetched (hopefully)
     content   = models.TextField(**nullable)                                 # The preprocessed NLP content in a parsable text representation
     signature = models.CharField(max_length=28, editable=False, **nullable)  # A base64 encoded hash of the content
+    n_words   = models.SmallIntegerField(**nullable)                         # The word count of the document
+    n_vocab   = models.SmallIntegerField(**nullable)                         # The size of the vocabulary used
 
     # Users are associated with documents by downloading and annotating them.
     users     = models.ManyToManyField(
@@ -47,6 +50,10 @@ class Document(TimeStampedModel):
         db_table = "documents"
         get_latest_by = "created"
         unique_together = ("long_url", "short_url")
+
+    def __str__(self):
+        if self.title: return self.title
+        return self.short_url
 
 
 ##########################################################################
@@ -69,6 +76,9 @@ class Label(TimeStampedModel):
         db_table = "labels"
         get_latest_by = "created"
 
+    def __str__(self):
+        return self.name
+
 
 class Annotation(TimeStampedModel):
     """
@@ -83,6 +93,17 @@ class Annotation(TimeStampedModel):
     class Meta:
         db_table = "annotations"
         get_latest_by = "created"
+        unique_together = ("document", "user")
+
+    def __str__(self):
+        if self.label:
+            return "{} added label {} to \"{}\" on {}".format(
+                self.user, self.label, self.document, self.updated
+            )
+
+        return "{} added document \"{}\" on {}".format(
+            self.user, self.document, self.created
+        )
 
 
 ##########################################################################

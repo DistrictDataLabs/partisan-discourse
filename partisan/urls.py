@@ -40,6 +40,7 @@ from django.conf.urls import include, url
 
 from partisan.views import *
 from members.views import *
+from corpus.views import *
 
 ##########################################################################
 ## Endpoint Discovery
@@ -49,7 +50,7 @@ from members.views import *
 router = routers.DefaultRouter()
 router.register(r'status', HeartbeatViewSet, "status")
 router.register(r'users', UserViewSet)
-
+router.register(r'documents', DocumentViewSet)
 
 ##########################################################################
 ## URL Patterns

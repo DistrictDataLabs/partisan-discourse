@@ -21,12 +21,9 @@ import re
 import base64
 import bleach
 import hashlib
-import requests
 
 from functools import wraps
 from markdown import markdown
-from django.conf import settings
-from urllib.parse import urljoin
 
 
 ##########################################################################
@@ -73,35 +70,6 @@ def htmlize(text):
     text = bleach.linkify(text)              # Add links from the text and add nofollow to existing links
 
     return text
-
-
-def bitly_shorten(url, token=None):
-    """
-    Shortens a URL using the bit.ly API.
-    """
-
-    # Get the bit.ly access token from settings
-    token = settings.BITLY_ACCESS_TOKEN or token
-    if not token:
-        raise ValueError(
-            "Cannot call shorten URL without a bit.ly access token"
-        )
-
-    # Compute and make the request to the API
-    endpoint = urljoin(settings.BITLY_API_ADDRESS, "v3/shorten")
-    params = {
-        "access_token": token,
-        "longUrl": url,
-    }
-
-    # bit.ly tends not to send status code errors
-    response = requests.get(endpoint, params=params)
-
-    # Parse and return the result
-    data = response.json()
-    if data['status_code'] != 200:
-        raise ValueError(data['status_txt'])
-    return data['data']['url']
 
 
 ##########################################################################
