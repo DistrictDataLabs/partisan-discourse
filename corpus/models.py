@@ -1,0 +1,90 @@
+# corpus.models
+# Database models for the corpus app
+#
+# Author:   Benjamin Bengfort <bbengfort@districtdatalabs.com>
+# Created:  Sun Jul 17 19:32:41 2016 -0400
+#
+# Copyright (C) 2016 District Data Labs
+# For license information, see LICENSE.txt
+#
+# ID: models.py [] benjamin@bengfort.com $
+
+"""
+Database models for the corpus app
+"""
+
+##########################################################################
+## Imports
+##########################################################################
+
+from django.db import models
+from autoslug import AutoSlugField
+from partisan.utils import nullable
+from model_utils.models import TimeStampedModel
+
+
+##########################################################################
+## Document Model
+##########################################################################
+
+class Document(TimeStampedModel):
+    """
+    Describes a document that is part of one or more corpora.
+    """
+
+    long_url  = models.URLField(max_length=2000, unique=True)                # The long url for the document
+    short_url = models.URLField(max_length=30, **nullable)                   # The bit.ly shortened url
+    raw_html  = models.TextField(**nullable)                                 # The html content fetched (hopefully)
+    content   = models.TextField(**nullable)                                 # The preprocessed NLP content in a parsable text representation
+    signature = models.CharField(max_length=28, editable=False, **nullable)  # A base64 encoded hash of the content
+
+    # Users are associated with documents by downloading and annotating them.
+    users     = models.ManyToManyField(
+        'auth.User', through='corpus.Annotation', related_name='documents'
+    )
+
+    class Meta:
+        db_table = "documents"
+        get_latest_by = "created"
+        unique_together = ("long_url", "short_url")
+
+
+##########################################################################
+## Annotation
+##########################################################################
+
+class Label(TimeStampedModel):
+    """
+    A label that is associated with a document to classify it.
+    """
+
+    name      = models.CharField(max_length=64, unique=True)        # The name of the label
+    slug      = AutoSlugField(populate_from='name', unique=True)    # A unique slug of the label
+    parent    = models.ForeignKey('self', **nullable)               # If there is a label hierarchy
+    documents = models.ManyToManyField(
+        'corpus.Document', through='corpus.Annotation', related_name='labels'
+    )
+
+    class Meta:
+        db_table = "labels"
+        get_latest_by = "created"
+
+
+class Annotation(TimeStampedModel):
+    """
+    A user description of a document, e.g. what label and a user-specific
+    association with the documentation for personalized corpus generation.
+    """
+
+    document  = models.ForeignKey('corpus.Document', related_name='annotations')
+    user      = models.ForeignKey('auth.User', related_name='annotations')
+    label     = models.ForeignKey('corpus.Label', related_name='annotations', **nullable)
+
+    class Meta:
+        db_table = "annotations"
+        get_latest_by = "created"
+
+
+##########################################################################
+## Corpus Model
+##########################################################################

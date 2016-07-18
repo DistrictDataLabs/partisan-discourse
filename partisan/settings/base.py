@@ -115,6 +115,7 @@ INSTALLED_APPS = [
     'django_gravatar',
 
     # Partisan Discourse apps
+    'corpus',
     'members',
 ]
 
@@ -193,6 +194,13 @@ GRAVATAR_ICON_SIZE      = 30
 MARKUP_FIELD_TYPES = (
     ('markdown', htmlize),
 )
+
+##########################################################################
+## bit.ly API Configuration
+##########################################################################
+
+BITLY_API_ADDRESS  = "https://api-ssl.bitly.com"
+BITLY_ACCESS_TOKEN = environ_setting("BITLY_ACCESS_TOKEN", "")
 
 ##########################################################################
 ## Authentication
