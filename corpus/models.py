@@ -106,7 +106,7 @@ class Annotation(TimeStampedModel):
     def __str__(self):
         if self.label:
             return "{} added label {} to \"{}\" on {}".format(
-                self.user, self.label, self.document, self.updated
+                self.user, self.label, self.document, self.modified
             )
 
         return "{} added document \"{}\" on {}".format(

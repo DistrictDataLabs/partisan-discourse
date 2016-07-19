@@ -11,6 +11,38 @@
     span.preprocessed-sentence:hover {
       color: #008cba;
     }
+
+    #documentContent {
+      margin-top: 15px;
+    }
+
+    #documentMeta {
+      margin-top: 8px;
+    }
+
+    .btn-republican:hover {
+      color: #ffffff;
+      background-color: #d32a0e;
+      border-color: #b1240c;
+    }
+
+    .btn-republican {
+      color: #ffffff;
+      background-color: #f04124;
+      border-color: #ea2f10;
+    }
+
+    .btn-democratic {
+      color: #ffffff;
+      background-color: #008cba;
+      border-color: #0079a1;
+    }
+
+    .btn-democratic:hover {
+      color: #ffffff;
+      background-color: #006687;
+      border-color: #004b63;
+    }
   </style>
 {% endblock %}
 
@@ -19,11 +51,19 @@
   <div class="container">
     <!-- Primary content area -->
     <div class="row">
-
       {% include 'components/url_form.html' %}
+    </div>
 
+    <div class="row">
       <div class="col-md-12">
-        <h3 id="documentTitle">{{ document.title }}</h3>
+        <div class="page-header">
+          <h3 id="documentTitle">{{ document.title }}</h3>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-8 col-xs-12">
         <ul id="documentMeta" class="list-unstyled list-inline">
           <li>
             <a href="{{ document.short_url }}" target="_blank">
@@ -39,6 +79,29 @@
         </ul>
       </div>
 
+      <div class="col-sm-4 col-xs-12">
+        <form id="annotateForm" method="POST" action="{% url 'api:document-detail' document.id %}annotate/">
+          <input type="hidden" value="" id="label" name="label" />
+          <div class="btn-group pull-right" role="group">
+          {% for label in labels %}
+            {% if annotation.label == label %}
+            <button type="submit" class="btn btn-sm btn-{{ label.slug }}" data-selected="true" data-label-slug="{{ label.slug }}">
+              <i class="icon icon-{{ label.slug }} icon-white"></i>
+            {% else %}
+            <button type="submit" class="btn btn-sm btn-default" data-selected="false" data-label-slug="{{ label.slug }}">
+              <i class="icon icon-{{ label.slug }}"></i>
+            {% endif %}
+              {{ label }}
+            </button>
+          {% endfor %}
+          </div>
+          {% csrf_token %}
+        </form>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+
+    <div class="row">
       <div class="col-md-12">
         <div id="documentContent" class="well">
           {% with document.content as content %}
@@ -46,8 +109,9 @@
           {% endwith %}
         </div>
       </div>
+    </div>
 
-    </div><!-- primary content area ends -->
+    <!-- primary content area ends -->
   </div><!-- container ends -->
 
 {% endblock %}
@@ -55,4 +119,5 @@
 {% block javascripts %}
   {{ block.super }}
   <script src="{% static 'js/fetch.js' %}" type="text/javascript"></script>
+  <script src="{% static 'js/annotate.js' %}" type="text/javascript"></script>
 {% endblock %}

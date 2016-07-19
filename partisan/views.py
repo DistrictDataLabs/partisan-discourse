@@ -27,6 +27,8 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 
+from corpus.models import Annotation
+
 ##########################################################################
 ## Views
 ##########################################################################
@@ -38,6 +40,10 @@ class HomePageView(LoginRequiredMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(HomePageView, self).get_context_data(**kwargs)
+
+        # Return a list of the most recent documents
+        context['annotations'] = Annotation.objects.order_by('-modified')[:20]
+
         return context
 
 ##########################################################################

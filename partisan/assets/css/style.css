@@ -51,3 +51,36 @@ div.header-buttons {
 .clickable-row {
     cursor: pointer;
 }
+
+/* Icons */
+.icon {
+    width: 16px;
+    height: 16px;
+    padding: 10px 14px 10px 8px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.icon-republican {
+    background-image: url('/assets/img/icons/republican-icon.png');
+}
+
+.icon-democratic {
+    background-image: url('/assets/img/icons/democratic-icon.png');
+}
+
+.icon-white.icon-republican {
+    background-image: url('/assets/img/icons/republican-white-icon.png');
+}
+
+.icon-white.icon-democratic {
+    background-image: url('/assets/img/icons/democratic-white-icon.png');
+}
+
+.text-republican {
+    color: #f04124;
+}
+
+.text-democratic {
+    color: #008cba;
+}
