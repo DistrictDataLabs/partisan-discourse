@@ -23,7 +23,7 @@ from partisan.utils import nullable
 from django.core.urlresolvers import reverse
 from model_utils.models import TimeStampedModel
 from picklefield.fields import PickledObjectField
-
+from corpus.managers import AnnotationManager
 
 ##########################################################################
 ## Document Model
@@ -98,9 +98,12 @@ class Annotation(TimeStampedModel):
     user      = models.ForeignKey('auth.User', related_name='annotations')
     label     = models.ForeignKey('corpus.Label', related_name='annotations', **nullable)
 
+    objects   = AnnotationManager()
+
     class Meta:
         db_table = "annotations"
-        get_latest_by = "created"
+        get_latest_by = "modified"
+        ordering = ['-modified']
         unique_together = ("document", "user")
 
     def __str__(self):

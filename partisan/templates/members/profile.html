@@ -73,20 +73,20 @@
         <ul class="number-stats list-unstyled list-inline">
           <li>
             <a href="#">
-              <span class="statistic">0</span>
-              <span class="statlabel">tbd</span>
+              <span class="statistic">{{ member.annotations.count }}</span>
+              <span class="statlabel">Documents</span>
             </a>
           </li>
           <li>
             <a href="#">
-              <span class="statistic">0</span>
-              <span class="statlabel">tbd</span>
+              <span class="statistic">{{ member.annotations.republican.count }}</span>
+              <span class="statlabel">Republican</span>
             </a>
           </li>
           <li>
             <a href="#">
-              <span class="statistic">0</span>
-              <span class="statlabel">tbd</span>
+              <span class="statistic">{{ member.annotations.democratic.count }}</span>
+              <span class="statlabel">Democratic</span>
             </a>
           </li>
         </ul>
@@ -137,6 +137,42 @@
               {% else %}
               <p>No biography added quite yet.</p>
               {% endif %}
+            </div>
+
+            <!-- Add recent activity -->
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">Your Recent Activity</h3>
+              </div>
+              <div class="panel-body">
+                <ul id="recentAnnotations" class="media-list">
+                  {% for annotation in member.annotations.all|slice:":10" %}
+                  <li class="media">
+                    <div class="media-left">
+                      {% if annotation.label %}
+                      <img class="media-object" src="{% static 'img'%}/{{ annotation.label.slug }}.png" alt="{{ annotation.label }}">
+                      {% else %}
+                      <img class="media-object" src="{% static 'img/vote.png' %}" alt="Annotate this document!">
+                      {% endif %}
+                    </div>
+                    <div class="media-body">
+                      <h5 class="media-heading">
+                        <a href="{{ annotation.document.get_absolute_url }}" title="{{ annotation.document.title }}">
+                          {{ annotation.document.title }}
+                        </a>
+                      </h5>
+                      <p class="text-muted"><small>
+                      {% if annotation.label %}
+                        {{ annotation.user.username }} annotated this document <span class="text-{{ annotation.label.slug }}">&ldquo;{{ annotation.label }}&rdquo;</span> on {{ annotation.modified|date }}
+                      {% else %}
+                        {{ annotation.user.username }} added this document on {{ annotation.modified|date }}
+                      {% endif %}
+                    </small></p>
+                    </div>
+                  </li>
+                  {% endfor %}
+                </ul>
+              </div>
             </div>
 
           </div>
