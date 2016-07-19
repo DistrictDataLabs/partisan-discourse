@@ -1,0 +1,53 @@
+{% extends 'page.html' %}
+{% load staticfiles %}
+
+{% block content %}
+
+  <div class="container">
+    <!-- Fetch URL form -->
+    <div class="row">
+      {% include 'components/url_form.html' %}
+    </div><!-- fetch url form ends -->
+
+    <!-- Recent Documents Listing -->
+    <div class="row">
+      <div class="col-xs-12">
+        <h3>Recent Activity</h3>
+        <ul id="recentAnnotations" class="media-list">
+          {% for annotation in annotations %}
+          <li class="media">
+            <div class="media-left">
+              {% if annotation.label %}
+              <img class="media-object" src="{% static 'img'%}/{{ annotation.label.slug }}.png" alt="{{ annotation.label }}">
+              {% else %}
+              <img class="media-object" src="{{ annotation.user.profile.gravatar_icon }}" alt="{{ annotation.user.profile.full_name }}">
+              {% endif %}
+            </div>
+            <div class="media-body">
+              <h5 class="media-heading">
+                <a href="{{ annotation.document.get_absolute_url }}" title="{{ annotation.document.title }}">
+                  {{ annotation.document.title }}
+                </a>
+              </h5>
+              <p class="text-muted"><small>
+              {% if annotation.label %}
+                {{ annotation.user.username }} annotated this document <span class="text-{{ annotation.label.slug }}">&ldquo;{{ annotation.label }}&rdquo;</span> on {{ annotation.modified|date }}
+              {% else %}
+                {{ annotation.user.username }} added this document on {{ annotation.modified|date }}
+              {% endif %}
+            </small></p>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div><!-- recent documents listing ends -->
+
+  </div><!-- container ends -->
+
+{% endblock %}
+
+{% block javascripts %}
+  {{ block.super }}
+  <script src="{% static 'js/fetch.js' %}" type="text/javascript"></script>
+{% endblock %}

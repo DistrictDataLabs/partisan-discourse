@@ -1,0 +1,86 @@
+/* Global Styles for Partisan Discourse */
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  padding-top: 86px;
+}
+
+/* Wrapper for page content to push down footer */
+#wrap {
+  min-height: 100%;
+  height: auto;
+  /* Negative indent footer by its height */
+  margin: 0 auto -106px;
+  /* Pad bottom by footer height */
+  padding: 0 0 106px;
+}
+
+/* Set the fixed height of the footer here */
+#footer {
+    background-color: #fff;
+    border-top: 1px solid #eee;
+    padding: 30px 15px;
+    font-size: 16px;
+}
+
+#footer p {
+    margin: 0;
+}
+
+.navbar .profile-image{
+    margin: -10px 4px;
+    height: 24px;
+}
+
+#footerStatus {
+    font-size: 12px;
+}
+
+td.details-key {
+    font-weight: bold;
+}
+
+div.header-buttons {
+    padding-top: 30px;
+}
+
+.clickable-row {
+    cursor: pointer;
+}
+
+/* Icons */
+.icon {
+    width: 16px;
+    height: 16px;
+    padding: 10px 14px 10px 8px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.icon-republican {
+    background-image: url('/assets/img/icons/republican-icon.png');
+}
+
+.icon-democratic {
+    background-image: url('/assets/img/icons/democratic-icon.png');
+}
+
+.icon-white.icon-republican {
+    background-image: url('/assets/img/icons/republican-white-icon.png');
+}
+
+.icon-white.icon-democratic {
+    background-image: url('/assets/img/icons/democratic-white-icon.png');
+}
+
+.text-republican {
+    color: #f04124;
+}
+
+.text-democratic {
+    color: #008cba;
+}

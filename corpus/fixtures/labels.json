@@ -1,0 +1,35 @@
+[
+{
+  "model": "corpus.label",
+  "pk": 1,
+  "fields": {
+    "created": "2016-07-18T14:56:26.706Z",
+    "modified": "2016-07-18T14:56:26.708Z",
+    "name": "USA Political Parties",
+    "slug": "usa-political-parties",
+    "parent": null
+  }
+},
+{
+  "model": "corpus.label",
+  "pk": 2,
+  "fields": {
+    "created": "2016-07-18T14:57:33.059Z",
+    "modified": "2016-07-18T14:57:33.062Z",
+    "name": "Democratic",
+    "slug": "democratic",
+    "parent": 1
+  }
+},
+{
+  "model": "corpus.label",
+  "pk": 3,
+  "fields": {
+    "created": "2016-07-18T14:57:59.531Z",
+    "modified": "2016-07-18T14:57:59.534Z",
+    "name": "Republican",
+    "slug": "republican",
+    "parent": 1
+  }
+}
+]

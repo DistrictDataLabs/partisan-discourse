@@ -1,0 +1,13 @@
+/* TEAM */
+
+    Developer: Benjamin Bengfort
+    Contact: bbengfort [at] districtdatalabs.com
+    Twitter: @bbengfort
+    From: Washington, DC
+
+/* SITE */
+
+    Last update: 2016/07/17
+    Language: English
+    Doctype: HTML5
+    IDE: Github Atom.io Editor

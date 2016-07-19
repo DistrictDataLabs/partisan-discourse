@@ -7,7 +7,7 @@
 # Copyright (C) 2015 District Data Labs
 # For license information, see LICENSE.txt
 #
-# ID: version.py [] benjamin@bengfort.com $
+# ID: version.py [80822db] benjamin@bengfort.com $
 
 """
 Helper module for managing versioning information
@@ -21,8 +21,8 @@ __version_info__ = {
     'major': 0,
     'minor': 1,
     'micro': 0,
-    'releaselevel': 'final',
-    'serial': 0,
+    'releaselevel': 'beta',
+    'serial': 1,
 }
 
 
