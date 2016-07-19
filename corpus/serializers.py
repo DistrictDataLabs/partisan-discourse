@@ -7,7 +7,7 @@
 # Copyright (C) 2016 District Data Labs
 # For license information, see LICENSE.txt
 #
-# ID: serializers.py [] benjamin@bengfort.com $
+# ID: serializers.py [63935bc] benjamin@bengfort.com $
 
 """
 API serializers for corpus models and API interaction.

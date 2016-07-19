@@ -7,7 +7,7 @@
 # Copyright (C) 2016 District Data Labs
 # For license information, see LICENSE.txt
 #
-# ID: signals.py [] benjamin@bengfort.com $
+# ID: signals.py [2de4867] benjamin@bengfort.com $
 
 """
 Signals for model management in the corpus app.

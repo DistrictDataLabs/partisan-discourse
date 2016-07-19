@@ -7,7 +7,7 @@
 # Copyright (C) 2016 District Data Labs
 # For license information, see LICENSE.txt
 #
-# ID: admin.py [] benjamin@bengfort.com $
+# ID: admin.py [2de4867] benjamin@bengfort.com $
 
 """
 Register models with the Django Admin for the corpus app.

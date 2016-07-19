@@ -18,6 +18,7 @@ python -m nltk.downloader hmm_treebank_pos_tagger
 python -m nltk.downloader maxent_treebank_pos_tagger
 python -m nltk.downloader maxent_ne_chunker
 python -m nltk.downloader stopwords
+python -m nltk.downloader averaged_perceptron_tagger
 
 # If using Textblob, use this instead:
 # python -m textblob.download_corpora lite

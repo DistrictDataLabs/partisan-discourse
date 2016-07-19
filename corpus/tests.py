@@ -7,7 +7,7 @@
 # Copyright (C) 2016 District Data Labs
 # For license information, see LICENSE.txt
 #
-# ID: tests.py [] benjamin@bengfort.com $
+# ID: tests.py [2de4867] benjamin@bengfort.com $
 
 """
 Tests for the corpus app.

@@ -7,7 +7,7 @@
 # Copyright (C) 2016 District Data Labs
 # For license information, see LICENSE.txt
 #
-# ID: managers.py [] benjamin@bengfort.com $
+# ID: managers.py [bab00b2] benjamin@bengfort.com $
 
 """
 Model managers for the corpus application.

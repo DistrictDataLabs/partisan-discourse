@@ -7,7 +7,7 @@
 # Copyright (C) 2015 District Data Labs
 # For license information, see LICENSE.txt
 #
-# ID: apps.py [] benjamin@bengfort.com $
+# ID: apps.py [d011c91] benjamin@bengfort.com $
 
 """
 Describes the Members application for Django
