@@ -19,6 +19,30 @@
     #documentMeta {
       margin-top: 8px;
     }
+
+    .btn-republican:hover {
+      color: #ffffff;
+      background-color: #d32a0e;
+      border-color: #b1240c;
+    }
+
+    .btn-republican {
+      color: #ffffff;
+      background-color: #f04124;
+      border-color: #ea2f10;
+    }
+
+    .btn-democratic {
+      color: #ffffff;
+      background-color: #008cba;
+      border-color: #0079a1;
+    }
+
+    .btn-democratic:hover {
+      color: #ffffff;
+      background-color: #006687;
+      border-color: #004b63;
+    }
   </style>
 {% endblock %}
 
@@ -61,7 +85,7 @@
           <div class="btn-group pull-right" role="group">
           {% for label in labels %}
             {% if annotation.label == label %}
-            <button type="submit" class="btn btn-sm btn-danger" data-selected="true" data-label-slug="{{ label.slug }}">
+            <button type="submit" class="btn btn-sm btn-{{ label.slug }}" data-selected="true" data-label-slug="{{ label.slug }}">
               <i class="icon icon-{{ label.slug }} icon-white"></i>
             {% else %}
             <button type="submit" class="btn btn-sm btn-default" data-selected="false" data-label-slug="{{ label.slug }}">

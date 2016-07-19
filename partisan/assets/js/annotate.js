@@ -50,7 +50,7 @@
 
         // On successful post of the annotation reset the buttons.
         var labelSlug = data.label
-        console.log("Setting toggle to", labelSlug);
+        console.log("Setting annotation to", labelSlug);
 
         // Go through each button and set the data as required.
         $.each(annotateForm.find("button[type=submit]"), function(idx, btn) {
@@ -62,12 +62,13 @@
             btn.data('selected', true);
             btn.removeClass('btn-default');
             btn.find("i").addClass('icon-white');
-            btn.addClass('btn-danger');
+            btn.addClass('btn-' + labelSlug);
 
           } else {
             // This is not the newly selected button
             btn.data('selected', false);
-            btn.removeClass('btn-danger');
+            btn.removeClass('btn-democratic');
+            btn.removeClass('btn-republican');
             btn.find("i").removeClass('icon-white');
             btn.addClass('btn-default');
           }

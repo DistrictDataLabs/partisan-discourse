@@ -185,7 +185,7 @@ TEMPLATES = [
 GRAVATAR_DEFAULT_SIZE   = 512
 GRAVATAR_DEFAULT_IMAGE  = 'identicon'
 GRAVATAR_DEFAULT_RATING = 'r'
-GRAVATAR_ICON_SIZE      = 30
+GRAVATAR_ICON_SIZE      = 42
 
 ##########################################################################
 ## MarkupField Configuration

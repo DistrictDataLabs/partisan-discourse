@@ -76,3 +76,11 @@ div.header-buttons {
 .icon-white.icon-democratic {
     background-image: url('/assets/img/icons/democratic-white-icon.png');
 }
+
+.text-republican {
+    color: #f04124;
+}
+
+.text-democratic {
+    color: #008cba;
+}
