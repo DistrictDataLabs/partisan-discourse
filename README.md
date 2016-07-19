@@ -28,7 +28,7 @@ The versioning uses a three part version system, "a.b.c" - "a" represents a majo
 * **deployment**: Monday, July 18, 2016
 * **commit**: [see tag](#)
 
-This is the first beta release of the Political Discourse application. Right now this simple web application allows users to sign in, then add links to go fetch web content to the global corpus. These links are then preprocessed using NLP foo. Users can tag the documents as Republican or Democrat, allowing us to build a political classifier. 
+This is the first beta release of the Partisan Discourse application. Right now this simple web application allows users to sign in, then add links to go fetch web content to the global corpus. These links are then preprocessed using NLP foo. Users can tag the documents as Republican or Democrat, allowing us to build a political classifier.
 
 <!-- References -->
 [travis_img]: https://travis-ci.org/DistrictDataLabs/partisan-discourse.svg
