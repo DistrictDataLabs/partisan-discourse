@@ -7,7 +7,7 @@
 # Copyright (C) 2016 District Data Labs
 # For license information, see LICENSE.txt
 #
-# ID: apps.py [] benjamin@bengfort.com $
+# ID: apps.py [2de4867] benjamin@bengfort.com $
 
 """
 Application definition for the corpus app.

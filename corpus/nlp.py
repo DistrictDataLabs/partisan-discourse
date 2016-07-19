@@ -7,7 +7,7 @@
 # Copyright (C) 2016 District Data Labs
 # For license information, see LICENSE.txt
 #
-# ID: nlp.py [] benjamin@bengfort.com $
+# ID: nlp.py [f8db174] benjamin@bengfort.com $
 
 """
 Provides utilities for natural language processing

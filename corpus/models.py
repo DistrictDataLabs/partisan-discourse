@@ -7,7 +7,7 @@
 # Copyright (C) 2016 District Data Labs
 # For license information, see LICENSE.txt
 #
-# ID: models.py [] benjamin@bengfort.com $
+# ID: models.py [2de4867] benjamin@bengfort.com $
 
 """
 Database models for the corpus app

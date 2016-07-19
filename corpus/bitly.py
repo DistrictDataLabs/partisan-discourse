@@ -7,7 +7,7 @@
 # Copyright (C) 2016 District Data Labs
 # For license information, see LICENSE.txt
 #
-# ID: bitly.py [] benjamin@bengfort.com $
+# ID: bitly.py [63935bc] benjamin@bengfort.com $
 
 """
 Access the bit.ly url shortening service.

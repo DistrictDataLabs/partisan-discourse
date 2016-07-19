@@ -7,7 +7,7 @@
 # Copyright (C) 2015 District Data Labs
 # For license information, see LICENSE.txt
 #
-# ID: admin.py [] benjamin@bengfort.com $
+# ID: admin.py [d011c91] benjamin@bengfort.com $
 
 """
 Administrative interface for members in Partisan Discourse.

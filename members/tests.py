@@ -7,7 +7,7 @@
 # Copyright (C) 2015 District Data Labs
 # For license information, see LICENSE.txt
 #
-# ID: tests.py [] benjamin@bengfort.com $
+# ID: tests.py [d011c91] benjamin@bengfort.com $
 
 """
 Testing for the members app.

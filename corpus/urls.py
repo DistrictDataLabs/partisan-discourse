@@ -7,7 +7,7 @@
 # Copyright (C) 2016 District Data Labs
 # For license information, see LICENSE.txt
 #
-# ID: urls.py [] benjamin@bengfort.com $
+# ID: urls.py [f8db174] benjamin@bengfort.com $
 
 """
 URLs for routing the corpus app.
