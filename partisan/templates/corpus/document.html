@@ -80,7 +80,7 @@
       </div>
 
       <div class="col-sm-4 col-xs-12">
-        <form id="annotateForm" method="POST" action="{% url 'api:document-detail' document.id %}annotate/">
+        <form class="annotate-form" method="POST" action="{% url 'api:document-detail' document.id %}annotate/">
           <input type="hidden" value="" id="label" name="label" />
           <div class="btn-group pull-right" role="group">
           {% for label in labels %}

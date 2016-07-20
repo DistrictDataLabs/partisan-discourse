@@ -9,35 +9,65 @@
  *  - jquery
  */
 
-(function($) {
-  $(document).ready(function() {
-    var annotateForm = $("#annotateForm");
+(function() {
 
-    annotateForm.find("button[type=submit]").click(function(e) {
-      // When the annotate button is clicked, set the val of the form.
-      var target = $(e.target);
+  // AnnotateView wraps a form with annotation buttons to provide interactive
+  // functionality with the API to select or deselect annotations in the DOM.
+  AnnotateView = function(selector, options) {
 
-      if (!target.data('selected')) {
+    this.form       = null;
+    this.options    = {};
+    this.buttons    = [];
+    this.labelInput = null;
+
+    // Initializes the view
+    this.init = function(selector, options) {
+
+      // Set default options
+      options = options || {};
+      this.options = _.defaults(options, this.options);
+
+      // Get the required jQuery elements
+      this.form = $(selector);
+      this.buttons = this.form.find("button[type=submit]");
+      this.labelInput = this.form.find("input[name=label]");
+
+      // Bind the required event handlers
+      var self = this;
+      this.buttons.click(function(e) { return self.onClick(this, e); });
+      this.form.submit(function(e) { return self.onSubmit(this, e); });
+
+      // Return this for chaining
+      return this;
+
+    }
+
+    // When one of the buttons is clicked
+    this.onClick = function(caller, event) {
+      var button = $(caller);
+
+      if (!button.data('selected')) {
         // Label the annotation with the slug of the button
-        var label = target.data('label-slug');
-        annotateForm.find("#label").val(label);
+        var label = button.data('label-slug');
+        this.labelInput.val(label);
       } else {
-        // Null the label on the annotation
-        annotateForm.find("#label").val("");
+        // Null the label on the annotation (to "deselect" the annotation)
+        this.labelInput.val("");
       }
+    }
 
-    });
-
-    annotateForm.submit(function(e) {
-      e.preventDefault();
+    // When the form is submitted
+    this.onSubmit = function(caller, event) {
+      var self = this;
+      event.preventDefault();
 
       // Get the action and method from the form
-      var method = annotateForm.attr('method');
-      var action = annotateForm.attr('action');
+      var method = this.form.attr('method');
+      var action = this.form.attr('action');
 
       // Get the data from the form
       var data = {
-        'label': annotateForm.find('#label').val()
+        'label': this.labelInput.val()
       }
 
       // Now make the AJAX request to the endpoint
@@ -49,20 +79,19 @@
       }).done(function(data) {
 
         // On successful post of the annotation reset the buttons.
-        var labelSlug = data.label
-        console.log("Setting annotation to", labelSlug);
+        console.log("Setting annotation to", data.label);
 
         // Go through each button and set the data as required.
-        $.each(annotateForm.find("button[type=submit]"), function(idx, btn) {
+        $.each(self.buttons, function(idx, btn) {
           btn = $(btn);
 
-          if (btn.data('label-slug') == labelSlug) {
+          if (btn.data('label-slug') == data.label) {
             // Ok this is the newly selected button
             // Set the selected attribute to true and the class to primary.
             btn.data('selected', true);
             btn.removeClass('btn-default');
             btn.find("i").addClass('icon-white');
-            btn.addClass('btn-' + labelSlug);
+            btn.addClass('btn-' + data.label);
 
           } else {
             // This is not the newly selected button
@@ -83,7 +112,14 @@
       });
 
       return false;
-    });
+    }
 
+    return this.init(selector, options)
+  };
+
+  // When the document is ready bind all annotation views
+  $(document).ready(function() {
+    annotators = _.map($(".annotate-form"), AnnotateView);
   });
-})(jQuery);
+
+})();
