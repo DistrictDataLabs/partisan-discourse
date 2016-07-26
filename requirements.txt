@@ -35,6 +35,7 @@ html5lib==0.9999999
 
 ## NLP and Parsing Dependencies
 nltk==3.2.1
+scikit-learn==0.17.1
 beautifulsoup4==4.4.1
 readability-lxml==0.6.2
 lxml==3.6.0
@@ -49,3 +50,7 @@ coverage==4.1
 pip==8.1.2
 setuptools==24.0.3
 wheel==0.29.0
+
+## The following requirements were added by pip freeze:
+numpy==1.11.1
+scipy==0.18.0
