@@ -87,3 +87,6 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+# Corpora and Fixtures
+corpus/fixtures/debates
