@@ -44,11 +44,12 @@ class TranscriptCorpusReader(CategorizedPlaintextCorpusReader):
 
     def tagged(self, **kwargs):
         """
-        Returns part-of-speech tagged words.
+        Returns part-of-speech tagged words in sentences in paragraphs.
         """
-        for sent in self.sents(**kwargs):
-            for token, tag in  nltk.pos_tag(sent):
-                yield token, tag
+        for para in self.paras(**kwargs):
+            yield [
+                nltk.pos_tag(sent) for sent in para
+            ]
 
 
 if __name__ == '__main__':
