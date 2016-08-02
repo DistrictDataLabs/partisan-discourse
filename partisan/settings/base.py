@@ -115,6 +115,7 @@ INSTALLED_APPS = [
     'django_gravatar',
 
     # Partisan Discourse apps
+    'arbiter',
     'corpus',
     'members',
 ]
