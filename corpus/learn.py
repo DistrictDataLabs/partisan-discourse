@@ -20,24 +20,18 @@ Machine learning for the corpus with Scikit-Learn.
 import nltk
 import unicodedata
 
-from collections import Counter
-from sklearn.linear_model import LogisticRegression
 from nltk.corpus import wordnet as wn
 from sklearn.pipeline import Pipeline
-from sklearn.base import BaseEstimator, TransformerMixin
-from sklearn.feature_extraction import DictVectorizer
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.decomposition import TruncatedSVD
-from sklearn.metrics import classification_report
 from sklearn.pipeline import FeatureUnion
 from sklearn.cross_validation import KFold
+from sklearn.decomposition import TruncatedSVD
+from sklearn.feature_extraction import DictVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.base import BaseEstimator, TransformerMixin
+from sklearn.metrics import precision_recall_fscore_support
 
-
-def identity(arg):
-    """
-    Simple identity function works as a passthrough.
-    """
-    return arg
+from partisan.utils import identity, timeit
+from collections import Counter, defaultdict
 
 
 ##########################################################################
@@ -63,6 +57,14 @@ class CorpusLoader(object):
         if folds is not None:
             # Generate the KFold cross validation for the loader.
             self.folds = KFold(self.n_docs, folds, shuffle)
+
+    @property
+    def n_folds(self):
+        """
+        Returns the number of folds if it exists; 0 otherwise.
+        """
+        if self.folds is None: return 0
+        return self.folds.n_folds
 
     def fileids(self, fold=None, train=False, test=False):
         """
@@ -97,9 +99,10 @@ class CorpusLoader(object):
 
         # Select only the indices to filter upon.
         indices = train_idx if train else test_idx
-        for doc_idx, fileid in enumerate(self.corpus.fileids()):
-            if doc_idx in indices:
-                yield fileid
+        return [
+            fileid for doc_idx, fileid in enumerate(self.corpus.fileids())
+            if doc_idx in indices
+        ]
 
     def labels(self, fold=None, train=False, test=False):
         """
@@ -235,18 +238,19 @@ class TextStats(BaseEstimator, TransformerMixin):
             }
 
 
+##########################################################################
+## Model Building Functions
+##########################################################################
 
-if __name__ == '__main__':
-    import os
+def construct_pipeline(classifier):
+    """
+    This function creates a feature extraction pipeline that accepts data
+    from a CorpusLoader and appends the classification model to the end of
+    the pipeline, returning a newly constructed Pipeline object that is
+    ready to be fit and trained!
+    """
 
-    from collections import Counter
-    from corpus.reader import TranscriptCorpusReader
-
-    path   = os.path.join(os.path.dirname(__file__), "fixtures", "debates")
-    corpus = TranscriptCorpusReader(path)
-    loader = CorpusLoader(corpus, 12)
-
-    model  = Pipeline([
+    return Pipeline([
         # Create a Feature Union of Text Stats and Bag of Words
         ('union', FeatureUnion(
             transformer_list = [
@@ -275,22 +279,103 @@ if __name__ == '__main__':
             },
         )),
 
-        # Use a LogisticRegression Classifier
-        ('maxent', LogisticRegression()),
+        # Append the estimator to the end of the pipeline
+        ('classifier', classifier),
     ])
 
-    # Get the first train/test splits for a classification report.
-    X_train = list(loader.documents(0, train=True))
-    y_train = list(loader.labels(0, train=True))
 
-    X_test  = list(loader.documents(0, test=True))
-    y_test  = list(loader.labels(0, test=True))
+@timeit
+def build_model(loader, model, **kwargs):
+    """
+    This function creates a pipeline from the feature extraction method in
+    construct_pipeline and the passed in model and model keyword arguments,
+    then trains the model with the given loader using all folds, then the
+    complete dataset given by the loader object. It returns the fitted
+    pipeline object along with scores and timing information.
+    """
 
-    # Train the model and make predictions
-    model.fit(X_train, y_train)
-    y_pred = model.predict(X_test)
+    @timeit
+    def build_inner_fold(loader, classifier, fold=None):
+        """
+        A timed inner function that will return a set of evaluation scores
+        if a fold is passed in, otherwise will build the model on the entire
+        dataset and return the fitted model.
+        """
 
-    # Print a classification report on the test data
-    print(
-        classification_report(y_pred, y_test)
-    )
+        # Get the training data from the loader
+        X_train = list(loader.documents(fold, train=True))
+        y_train = list(loader.labels(fold, train=True))
+
+        # Construct the pipeline from the instantiated classifier
+        model = construct_pipeline(classifier)
+        model.fit(X_train, y_train)
+
+        # If folds is None, then return the fitted model.
+        if fold is None: return model
+
+        # Otherwise get the test data from the fold to perform an evaluation.
+        X_test  = list(loader.documents(fold, test=True))
+        y_test  = list(loader.labels(fold, test=True))
+        y_pred  = model.predict(X_test)
+
+        # Get the per-class scores as a well-structured object
+        keys = ('precision', 'recall', 'fscore', 'support')
+        scores = precision_recall_fscore_support(y_test, y_pred, labels=model.classes_)
+        scores = map(lambda s: map(float, s), scores)
+        scores = map(lambda s: dict(zip(model.classes_, s)), scores)
+        scores = dict(zip(keys, scores))
+
+        # Get the weighted scores and add to the scores object
+        weighted = precision_recall_fscore_support(y_test, y_pred, average='weighted', pos_label=None)
+        for key, wscore in zip(keys, weighted):
+            scores[key]['average'] = float(wscore) if wscore is not None else None
+
+        return scores
+
+
+    # Now that the inner function works, let's run the model build process on
+    # each fold for cross-validation and a final time to complete the model.
+    scores = defaultdict(lambda: defaultdict(list))
+    for fold in range(loader.n_folds):
+
+        classifier  = model(**kwargs)                            # Instantiate the classifier
+        score, time = build_inner_fold(loader, classifier, fold) # Fit the model for this fold
+
+        # Update the scores as a list of scores for each run
+        for name, values in score.items():
+            for label, value in values.items():
+                scores[name][label].append(value)
+
+        # Add the time to the scores listing
+        scores['times']['folds'].append(time)
+
+    # Build the final model
+    classifier = model(**kwargs)
+    classifier, build_time = build_inner_fold(loader, classifier)
+    scores['times']['final'] = build_time
+
+    # Return everything we've constructed (*whew)
+    return classifier, scores
+
+
+if __name__ == '__main__':
+    import os
+    import json
+    import pickle
+
+    from corpus.reader import TranscriptCorpusReader
+    from sklearn.linear_model import LogisticRegression
+
+    path   = os.path.join(os.path.dirname(__file__), "fixtures", "debates")
+    saveto = os.path.join(os.path.dirname(__file__), "fixtures", "maxent-debates.pickle")
+    corpus = TranscriptCorpusReader(path)
+    loader = CorpusLoader(corpus, 12)
+
+    model  = LogisticRegression
+    (model, scores), total_time = build_model(loader, model)
+
+    with open(saveto, 'wb') as f:
+        pickle.dump(model, f)
+
+    print(json.dumps(scores, indent=2))
+    print(total_time)

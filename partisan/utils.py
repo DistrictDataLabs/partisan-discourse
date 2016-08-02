@@ -18,6 +18,7 @@ Project level  utilities and helpers
 ##########################################################################
 
 import re
+import time
 import base64
 import bleach
 import hashlib
@@ -74,8 +75,15 @@ def htmlize(text):
     return text
 
 
+def identity(arg):
+    """
+    Simple identity function works as a passthrough.
+    """
+    return arg
+
+
 ##########################################################################
-## Memoization
+## Decorators
 ##########################################################################
 
 
@@ -95,3 +103,17 @@ def memoized(fget):
         return getattr(self, attr_name)
 
     return property(fget_memoized)
+
+
+def timeit(func):
+    """
+    Simple wall clock timer for a function that runs in seconds.
+    """
+
+    @wraps(func)
+    def func_timed(*args, **kwargs):
+        start  = time.time()
+        result = func(*args, **kwargs)
+        return result, time.time() - start
+
+    return func_timed

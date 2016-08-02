@@ -32,7 +32,7 @@ CAT_PATTERN = r'([\w_\s]+)/.*'
 
 
 ##########################################################################
-## Corpus Reader
+## Transcript Corpus Reader
 ##########################################################################
 
 class TranscriptCorpusReader(CategorizedPlaintextCorpusReader):
