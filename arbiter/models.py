@@ -45,6 +45,20 @@ class Estimator(TimeStampedModel):
     build_time  = models.DurationField(**nullable)               # The amount of time it took to buld
     owner       = models.ForeignKey('auth.User', **nullable)     # The owner, if any, of the model
 
+    class Meta:
+        db_table = "estimators"
+        get_latest_by = "created"
+
+    def __str__(self):
+        s =  "{} {} ({})".format(
+            self.model_class, self.model_type.title(), self.created.strftime('%Y-%m-%d')
+        )
+
+        if self.owner:
+            s += " for {}".format(self.owner)
+
+        return s
+
 
 class Score(TimeStampedModel):
     """
@@ -57,6 +71,7 @@ class Score(TimeStampedModel):
         'jaccard', 'logloss', 'mcc', 'precision', 'recall', 'roc', 'support',
         'mae', 'mse', 'mdae', 'r2',
         'rand', 'completeness', 'homogeneity', 'mutual', 'silhouette', 'v',
+        'time',
     )
 
     metric    = models.CharField(choices=METRICS, max_length=32)    # The type of the score
@@ -64,3 +79,17 @@ class Score(TimeStampedModel):
     label     = models.CharField(max_length=32, **nullable)         # The label, if any, of the score
     folds     = ArrayField(models.FloatField(), **nullable)         # Cross-validation scores
     estimator = models.ForeignKey(Estimator, related_name='scores') # The estimator being evaluated
+
+    class Meta:
+        db_table = "evaluations"
+        get_latest_by = "created"
+
+    def __str__(self):
+        s = "{} score for {} = {:0.3f}".format(
+            self.metric.title(), self.estimator, self.score
+        )
+
+        if self.label:
+            s = "{} ".format(self.label.title()) + s
+
+        return s

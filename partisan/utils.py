@@ -18,14 +18,13 @@ Project level  utilities and helpers
 ##########################################################################
 
 import re
-import time
 import base64
 import bleach
 import hashlib
 
 from functools import wraps
 from markdown import markdown
-
+from datetime import datetime
 
 ##########################################################################
 ## Utilities
@@ -107,13 +106,14 @@ def memoized(fget):
 
 def timeit(func):
     """
-    Simple wall clock timer for a function that runs in seconds.
+    Simple wall clock timer for a function that runs in seconds. Returns a
+    datetime.timedelta object for use in a models.DurationField. 
     """
 
     @wraps(func)
     def func_timed(*args, **kwargs):
-        start  = time.time()
+        start  = datetime.now()
         result = func(*args, **kwargs)
-        return result, time.time() - start
+        return result, datetime.now() - start
 
     return func_timed

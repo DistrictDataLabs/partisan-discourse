@@ -294,6 +294,10 @@ def build_model(loader, model, **kwargs):
     pipeline object along with scores and timing information.
     """
 
+    # TODO: Add multiprocessing to parallelize build_inner_fold
+    # TODO: Add verbosity to inform user on command line what is happening
+    # TODO: Equip this method to be used by Celery workers
+
     @timeit
     def build_inner_fold(loader, classifier, fold=None):
         """
@@ -319,9 +323,8 @@ def build_model(loader, model, **kwargs):
         y_pred  = model.predict(X_test)
 
         # Get the per-class scores as a well-structured object
-        keys = ('precision', 'recall', 'fscore', 'support')
+        keys = ('precision', 'recall', 'f1', 'support')
         scores = precision_recall_fscore_support(y_test, y_pred, labels=model.classes_)
-        scores = map(lambda s: map(float, s), scores)
         scores = map(lambda s: dict(zip(model.classes_, s)), scores)
         scores = dict(zip(keys, scores))
 
@@ -360,7 +363,6 @@ def build_model(loader, model, **kwargs):
 
 if __name__ == '__main__':
     import os
-    import json
     import pickle
 
     from corpus.reader import TranscriptCorpusReader
@@ -377,5 +379,7 @@ if __name__ == '__main__':
     with open(saveto, 'wb') as f:
         pickle.dump(model, f)
 
-    print(json.dumps(scores, indent=2))
-    print(total_time)
+    with open('scores.pickle', 'wb') as f:
+        pickle.dump(scores, f)
+
+    print("Finished build process in {}".format(total_time))
