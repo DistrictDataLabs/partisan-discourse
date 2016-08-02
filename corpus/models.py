@@ -38,7 +38,7 @@ class Document(TimeStampedModel):
     long_url  = models.URLField(max_length=2000, unique=True)                # The long url for the document
     short_url = models.URLField(max_length=30, **nullable)                   # The bit.ly shortened url
     raw_html  = models.TextField(**nullable)                                 # The html content fetched (hopefully)
-    content   = PickledObjectField(**nullable)                                 # The preprocessed NLP content in a parsable text representation
+    content   = PickledObjectField(**nullable)                               # The preprocessed NLP content in a parsable text representation
     signature = models.CharField(max_length=44, editable=False, **nullable)  # A base64 encoded hash of the content
     n_words   = models.SmallIntegerField(**nullable)                         # The word count of the document
     n_vocab   = models.SmallIntegerField(**nullable)                         # The size of the vocabulary used
