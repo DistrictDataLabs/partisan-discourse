@@ -23,7 +23,7 @@ from partisan.utils import nullable
 from django.core.urlresolvers import reverse
 from model_utils.models import TimeStampedModel
 from picklefield.fields import PickledObjectField
-from corpus.managers import AnnotationManager
+from corpus.managers import AnnotationManager, CorpusManager
 
 ##########################################################################
 ## Document Model
@@ -120,3 +120,37 @@ class Annotation(TimeStampedModel):
 ##########################################################################
 ## Corpus Model
 ##########################################################################
+
+class Corpus(TimeStampedModel):
+    """
+    A model that maintains a mapping of documents to estimators for use in
+    tracking the training data that is used to fit a text classifier object.
+    """
+
+    title     = models.CharField(max_length=255, **nullable)
+    slug      = AutoSlugField(populate_from='title', unique=True)
+    documents = models.ManyToManyField('corpus.Document', related_name='corpora')
+    user      = models.ForeignKey('auth.User', related_name='corpora', **nullable)
+
+    objects   = CorpusManager()
+
+    class Meta:
+        db_table = "corpora"
+        get_latest_by = "created"
+        ordering = ["-created"]
+        verbose_name = "corpus"
+        verbose_name_plural = "corpora"
+
+    def __str__(self):
+        if self.title:
+            return self.title
+
+        # Construct the descriptive string.
+        s = "{} document corpus created on {}".format(
+            self.documents.count(), self.created.strftime("%Y-%m-%d")
+        )
+
+        if self.user:
+            s += " by {}".format(self.user)
+
+        return s
