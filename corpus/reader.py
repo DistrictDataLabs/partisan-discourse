@@ -104,16 +104,18 @@ class QueryCorpusReader(object):
         """
         # If fileids is None, return all categories
         # HACK: use a unique query on the database
-        return list(set([
-            doc.label(self.user) for doc in self.query
-        ]))
+        if fileids is None:
+            return list(set([
+                str(doc.label(self.user)) for doc in self.query
+            ]))
 
         # Convert to a list if a singleton is passed
         if isinstance(fileids, int):
             fileids = [fileids,]
 
         return list(set([
-            doc.label(self.user) for doc in self.query.filter(id__in=fileids)
+            str(doc.label(self.user))
+            for doc in self.query.filter(id__in=fileids)
         ]))
 
     def tagged(self, fileids=None, categories=None):
@@ -126,7 +128,9 @@ class QueryCorpusReader(object):
         if isinstance(fileids, int):
             fileids = [fileids,]
 
-        return self.query.filter(id__in=fileids).values_list('content', flat=True)
+        for doc in self.query.filter(id__in=fileids).values_list('content', flat=True):
+            for para in doc:
+                yield para
 
 
 ##########################################################################
