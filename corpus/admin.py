@@ -18,7 +18,7 @@ Register models with the Django Admin for the corpus app.
 ##########################################################################
 
 from django.contrib import admin
-from corpus.models import Document, Annotation, Label
+from corpus.models import Document, Annotation, Label, Corpus
 
 ##########################################################################
 ## Register Admin
@@ -27,3 +27,4 @@ from corpus.models import Document, Annotation, Label
 admin.site.register(Label)
 admin.site.register(Annotation)
 admin.site.register(Document)
+admin.site.register(Corpus)

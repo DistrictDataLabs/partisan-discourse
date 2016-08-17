@@ -44,6 +44,7 @@ class Estimator(TimeStampedModel):
     estimator   = PickledObjectField(**nullable)                 # The pickled object model
     build_time  = models.DurationField(**nullable)               # The amount of time it took to buld
     owner       = models.ForeignKey('auth.User', **nullable)     # The owner, if any, of the model
+    corpus      = models.ForeignKey('corpus.Corpus', **nullable) # The corpus the estimator was trained on
 
     class Meta:
         db_table = "estimators"

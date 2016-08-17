@@ -23,7 +23,9 @@ from partisan.utils import nullable
 from django.core.urlresolvers import reverse
 from model_utils.models import TimeStampedModel
 from picklefield.fields import PickledObjectField
-from corpus.managers import AnnotationManager
+from corpus.managers import AnnotationManager, CorpusManager
+
+from operator import itemgetter
 
 ##########################################################################
 ## Document Model
@@ -52,6 +54,31 @@ class Document(TimeStampedModel):
         db_table = "documents"
         get_latest_by = "created"
         unique_together = ("long_url", "short_url")
+
+    def label(self, user=None):
+        """
+        If a user is specified then returns the label for that user. Otherwise
+        returns the majority voted label for the document in the corpus.
+        """
+        # If a user is supplied get their annotation and return the label.
+        if user is not None:
+            annotation = self.annotations.filter(user=user).first()
+            if annotation: return annotation.label
+
+        # Otherwise aggregate the annotations per document.
+        # TODO: Add annotator aggreement logic here!
+        else:
+            labels = self.labels.annotate(votes=models.Count('id'))
+            votes  = [(label, label.votes) for label in labels]
+            if votes:
+                # Check if a tie
+                if len(set(vote[1] for vote in votes)) == 1:
+                    return None
+
+                # Return the maximum
+                return max(votes, key=itemgetter(1))[0]
+
+        return None
 
     def get_absolute_url(self):
         """
@@ -120,3 +147,37 @@ class Annotation(TimeStampedModel):
 ##########################################################################
 ## Corpus Model
 ##########################################################################
+
+class Corpus(TimeStampedModel):
+    """
+    A model that maintains a mapping of documents to estimators for use in
+    tracking the training data that is used to fit a text classifier object.
+    """
+
+    title     = models.CharField(max_length=255, **nullable)
+    slug      = AutoSlugField(populate_from='title', unique=True)
+    documents = models.ManyToManyField('corpus.Document', related_name='corpora')
+    user      = models.ForeignKey('auth.User', related_name='corpora', **nullable)
+
+    objects   = CorpusManager()
+
+    class Meta:
+        db_table = "corpora"
+        get_latest_by = "created"
+        ordering = ["-created"]
+        verbose_name = "corpus"
+        verbose_name_plural = "corpora"
+
+    def __str__(self):
+        if self.title:
+            return self.title
+
+        # Construct the descriptive string.
+        s = "{} document corpus created on {}".format(
+            self.documents.count(), self.created.strftime("%Y-%m-%d")
+        )
+
+        if self.user:
+            s += " by {}".format(self.user)
+
+        return s

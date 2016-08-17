@@ -52,6 +52,103 @@ class TranscriptCorpusReader(CategorizedPlaintextCorpusReader):
             ]
 
 
+##########################################################################
+## Django Query Corpus Reader
+##########################################################################
+
+class QueryCorpusReader(object):
+    """
+    The query corpus reader takes in a query that yields a list of documents
+    and modifies it such that it is only fetching the preprocessed content in
+    a streaming fashion.
+    """
+
+    def __init__(self, query, user=None):
+        """
+        Pass in a QuerySet or Query object for selecting a group of documents.
+        Can also optionally pass in a user to determine labeling scheme.
+        """
+        self.user  = user
+        self.query = query
+
+    def fileids(self, categories=None):
+        """
+        Returns a list of file primary keys for the files that make up this
+        corpus or that make up the given category(s) if specified.
+
+        Categories can be either a single string or a list of strings.
+        """
+        # If categories is None, return all fileids.
+        if categories is None:
+            return self.query.values_list('id', flat=True)
+
+        # Convert to a list if a singleton is passed
+        if isinstance(categories, str):
+            categories = [categories,]
+
+        # Convert to a quick lookup data structure
+        categories = set(categories)
+
+        # Manually loop through all documents (bummer)
+        return [
+            doc.id for doc in self.query
+            if doc.label(self.user) in categories
+        ]
+
+    def categories(self, fileids=None):
+        """
+        Return a list of file identifiers of the categories defined for this
+        corpus or the file(s) if it is given.
+
+        Fileids can be either a list of integers or a single integer.
+        """
+        # If fileids is None, return all categories
+        # HACK: use a unique query on the database
+        if fileids is None:
+            return list(set([
+                str(doc.label(self.user)) for doc in self.query
+            ]))
+
+        # Convert to a list if a singleton is passed
+        if isinstance(fileids, int):
+            fileids = [fileids,]
+
+        return list(set([
+            str(doc.label(self.user))
+            for doc in self.query.filter(id__in=fileids)
+        ]))
+
+    def tagged(self, fileids=None, categories=None):
+        """
+        Returns the content of each document.
+        """
+        if fileids is None:
+            fileids = self.fileids(categories)
+
+        if isinstance(fileids, int):
+            fileids = [fileids,]
+
+        for doc in self.query.filter(id__in=fileids).values_list('content', flat=True):
+            for para in doc:
+                yield para
+
+
+##########################################################################
+## Django Corpus Model Reader
+##########################################################################
+
+class CorpusModelReader(QueryCorpusReader):
+    """
+    Takes a corpus object and automatically references documents.
+    """
+
+    def __init__(self, corpus):
+        self.corpus = corpus
+        super(CorpusModelReader, self).__init__(
+            corpus.documents.all(), corpus.user
+        )
+
+
 if __name__ == '__main__':
     path = os.path.join(os.path.dirname(__file__), "fixtures", "debates")
     corpus = TranscriptCorpusReader(path)
