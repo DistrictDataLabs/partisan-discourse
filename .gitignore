@@ -91,3 +91,6 @@ ENV/
 # Corpora and Fixtures
 corpus/fixtures/debates
 corpus/fixtures/*.pickle
+
+# Mac Stuff
+.DS_Store
