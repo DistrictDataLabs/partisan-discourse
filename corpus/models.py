@@ -156,8 +156,9 @@ class Corpus(TimeStampedModel):
 
     title     = models.CharField(max_length=255, **nullable)
     slug      = AutoSlugField(populate_from='title', unique=True)
-    documents = models.ManyToManyField('corpus.Document', related_name='corpora')
+    documents = models.ManyToManyField('corpus.Document', through='LabeledDocument', related_name='corpora')
     user      = models.ForeignKey('auth.User', related_name='corpora', **nullable)
+    labeled   = models.BooleanField()
 
     objects   = CorpusManager()
 
@@ -181,3 +182,21 @@ class Corpus(TimeStampedModel):
             s += " by {}".format(self.user)
 
         return s
+
+
+class LabeledDocument(TimeStampedModel):
+    """
+    A model that tracks the relationship between documents and corpora and
+    ensures that every document has a static label (or not) so that any model
+    that has been generated is reproducible.
+    """
+
+    corpus   = models.ForeignKey('corpus.Corpus')
+    document = models.ForeignKey('corpus.Document')
+    label    = models.ForeignKey('corpus.Label', **nullable)
+
+    class Meta:
+        db_table = "corpora_documents"
+
+    def __str__(self):
+        return "{} ({})".format(self.document, self.label)
