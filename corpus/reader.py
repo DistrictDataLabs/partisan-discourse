@@ -20,6 +20,7 @@ A simple corpus reader object for training models.
 import os
 import nltk
 
+from corpus.models import Label
 from nltk.corpus.reader.plaintext import CategorizedPlaintextCorpusReader
 
 
@@ -83,7 +84,7 @@ class QueryCorpusReader(object):
             return self.query.values_list('id', flat=True)
 
         # Convert to a list if a singleton is passed
-        if isinstance(categories, str):
+        if isinstance(categories, (str, Label)):
             categories = [categories,]
 
         # Convert to a quick lookup data structure
@@ -140,6 +141,12 @@ class QueryCorpusReader(object):
 class CorpusModelReader(QueryCorpusReader):
     """
     Takes a corpus object and automatically references documents.
+
+    Note this class takes advantage of the LabeledDocument through model
+    between documents and corpora in order to perform queries on the database.
+    The QueryCorpusReader relies on the label() method of a document for
+    label discovery and therefore cannot do filtering or querying based on
+    data that is stored in the database.
     """
 
     def __init__(self, corpus):
@@ -147,6 +154,48 @@ class CorpusModelReader(QueryCorpusReader):
         super(CorpusModelReader, self).__init__(
             corpus.documents.all(), corpus.user
         )
+
+    def fileids(self, categories=None):
+        """
+        Returns a list of file primary keys for the files that make up this
+        corpus or that make up the given category(s) if specified.
+
+        Categories can be either a single string or a list of strings.
+        """
+        # If categories is None, return all fileids.
+        if categories is None:
+            return self.query.values_list('id', flat=True)
+
+        # Convert to a list if a singleton is passed
+        if isinstance(categories, (str, Label)):
+            categories = [categories,]
+
+        # Convert to a quick lookup data structure
+        categories = set(categories)
+
+        # Filter the labeled documents based on the label.
+        query = self.corpus.labels.filter(label__in=categories)
+        return query.values_list('document_id', flat=True)
+
+    def categories(self, fileids=None):
+        """
+        Return a list of file identifiers of the categories defined for this
+        corpus or the file(s) if it is given.
+
+        Fileids can be either a list of integers or a single integer.
+        """
+        # If fileids is None, return all categories
+        if fileids is None:
+            labels = self.corpus.labels.values_list('label', flat=True).distinct()
+            return Label.objects.filter(id__in=labels).values_list('slug', flat=True)
+
+        # Convert to a list if a singleton is passed
+        if isinstance(fileids, int):
+            fileids = [fileids,]
+
+        labels = self.corpus.labels.filter(document_id__in=fileids)
+        labels = labels.values_list('label', flat=True).distinct()
+        return Label.objects.filter(id__in=labels).values_list('slug', flat=True)
 
 
 if __name__ == '__main__':

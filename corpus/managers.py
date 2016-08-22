@@ -52,13 +52,22 @@ class CorpusManager(models.Manager):
         """
         # Lazy load the document model
         Document = apps.get_model('corpus.Document')
+        LabeledDocument = apps.get_model('corpus.LabeledDocument')
 
         # Add the user to the kwargs and construct the corpus.
         kwargs['user'] = user
         corpus = self.create(**kwargs)
 
         # Now add all the documents the user has annotated to date.
-        docs = Document.objects.filter(annotations__user=user)
-        corpus.documents.set(docs)
+        for doc in Document.objects.filter(annotations__user=user):
+            if corpus.labeled:
+                label = doc.label(user)
+                if label is None: continue
+            else:
+                label = None
+
+            LabeledDocument.objects.create(
+                corpus=corpus, document=doc, label=label,
+            )
 
         return corpus
