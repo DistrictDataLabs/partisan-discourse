@@ -71,12 +71,22 @@ class Document(TimeStampedModel):
             labels = self.labels.annotate(votes=models.Count('id'))
             votes  = [(label, label.votes) for label in labels]
             if votes:
-                # Check if a tie
-                if len(set(vote[1] for vote in votes)) == 1:
-                    return None
+                # If we have more than one thing being voted for.
+                if len(votes) > 1:
+                    # Check if a tie between all labels
+                    if all([v[1] == o[1] for o in votes for v in votes]):
+                        return None
 
-                # Return the maximum
-                return max(votes, key=itemgetter(1))[0]
+                    # Select the label that has the most votes
+                    vote = max(votes, key=itemgetter(1))
+
+                # Otherwise we've just got one thing being voted for
+                else:
+                    vote = votes[0]
+
+                # Make sure that there are enough votes for an article
+                if vote[1] > 0:
+                    return vote[0]
 
         return None
 
@@ -158,7 +168,7 @@ class Corpus(TimeStampedModel):
     slug      = AutoSlugField(populate_from='title', unique=True)
     documents = models.ManyToManyField('corpus.Document', through='LabeledDocument', related_name='corpora')
     user      = models.ForeignKey('auth.User', related_name='corpora', **nullable)
-    labeled   = models.BooleanField()
+    labeled   = models.BooleanField(default=True)
 
     objects   = CorpusManager()
 
@@ -191,8 +201,8 @@ class LabeledDocument(TimeStampedModel):
     that has been generated is reproducible.
     """
 
-    corpus   = models.ForeignKey('corpus.Corpus')
-    document = models.ForeignKey('corpus.Document')
+    corpus   = models.ForeignKey('corpus.Corpus', related_name='labels')
+    document = models.ForeignKey('corpus.Document', related_name='+')
     label    = models.ForeignKey('corpus.Label', **nullable)
 
     class Meta:
