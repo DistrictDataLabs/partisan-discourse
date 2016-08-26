@@ -1,6 +1,0 @@
-site_name: Partisan Discourse
-pages:
-  - Quick Start: index.md
-  - About: about.md
-  - Architecture: architecture.md
-  - User Guide: userguide.md

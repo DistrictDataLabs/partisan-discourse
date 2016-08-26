@@ -1,1 +1,13 @@
-site_name: My Docs
+site_name: Partisan Discourse
+repo_name: GitHub
+repo_url: https://github.com/DistrictDataLabs/partisan-discourse
+site_description: A web application that identifies party in political discourse and an example of operationalized machine learning.
+site_author: District Data Labs
+copyright: Copyright &copy; 2015-2016 District Data Labs, All Rights Reserved
+theme: readthedocs
+
+pages:
+  - Quick Start: index.md
+  - About: about.md
+  - Architecture: architecture.md
+  - User Guide: userguide.md
