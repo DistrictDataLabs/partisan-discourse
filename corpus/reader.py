@@ -7,7 +7,7 @@
 # Copyright (C) 2016 District Data Labs
 # For license information, see LICENSE.txt
 #
-# ID: reader.py [] tojeda@districtdatalabs.com $
+# ID: reader.py [01cb9f8] ojedatony1616@gmail.com $
 
 """
 A simple corpus reader object for training models.

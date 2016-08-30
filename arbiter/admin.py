@@ -7,7 +7,7 @@
 # Copyright (C) 2016 District Data Labs
 # For license information, see LICENSE.txt
 #
-# ID: admin.py [] benjamin@bengfort.com $
+# ID: admin.py [cd70726] benjamin@bengfort.com $
 
 """
 Django admin CMS definitions and registrations for the arbiter app.

@@ -7,7 +7,7 @@
 # Copyright (C) 2016 District Data Labs
 # For license information, see LICENSE.txt
 #
-# ID: learn.py [] benjamin@bengfort.com $
+# ID: learn.py [3100e46] benjamin@bengfort.com $
 
 """
 Machine learning for the corpus with Scikit-Learn.

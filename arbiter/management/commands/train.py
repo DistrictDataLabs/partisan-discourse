@@ -7,7 +7,7 @@
 # Copyright (C) 2016 District Data Labs
 # For license information, see LICENSE.txt
 #
-# ID: train.py [] benjamin@bengfort.com $
+# ID: train.py [feb4803] benjamin@bengfort.com $
 
 """
 Command to train red/blue classifiers from the command line.
