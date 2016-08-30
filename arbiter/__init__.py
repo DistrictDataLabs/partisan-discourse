@@ -1,30 +1,25 @@
-# corpus.admin
-# Register models with the Django Admin for the corpus app.
+# arbiter
+# A Django app that implements a MMS for the red/blue models.
 #
 # Author:   Benjamin Bengfort <bbengfort@districtdatalabs.com>
-# Created:  Sun Jul 17 19:30:33 2016 -0400
+# Created:  Tue Aug 02 09:13:41 2016 -0400
 #
 # Copyright (C) 2016 District Data Labs
 # For license information, see LICENSE.txt
 #
-# ID: admin.py [2de4867] benjamin@bengfort.com $
+# ID: __init__.py [cd70726] benjamin@bengfort.com $
 
 """
-Register models with the Django Admin for the corpus app.
+A Django app that implements a MMS for the red/blue models.
 """
 
 ##########################################################################
 ## Imports
 ##########################################################################
 
-from django.contrib import admin
-from corpus.models import Document, Annotation, Label, Corpus
 
 ##########################################################################
-## Register Admin
+## Configuration
 ##########################################################################
 
-admin.site.register(Label)
-admin.site.register(Annotation)
-admin.site.register(Document)
-admin.site.register(Corpus)
+default_app_config = 'arbiter.apps.ArbiterConfig'

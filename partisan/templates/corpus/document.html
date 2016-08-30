@@ -80,7 +80,7 @@
       </div>
 
       <div class="col-sm-4 col-xs-12">
-        <form id="annotateForm" method="POST" action="{% url 'api:document-detail' document.id %}annotate/">
+        <form class="annotate-form" method="POST" action="{% url 'api:document-detail' document.id %}annotate/">
           <input type="hidden" value="" id="label" name="label" />
           <div class="btn-group pull-right" role="group">
           {% for label in labels %}
@@ -94,6 +94,9 @@
               {{ label }}
             </button>
           {% endfor %}
+            <button type="button" class="btn btn-sm btn-default" data-toggle="modal" data-target="#annotationHelpModal">
+              <i class="fa fa-question-circle"></i> Help
+            </button>
           </div>
           {% csrf_token %}
         </form>
@@ -114,6 +117,34 @@
     <!-- primary content area ends -->
   </div><!-- container ends -->
 
+{% endblock %}
+
+{% block modals %}
+  {{ block.super }}
+  <!-- Modal -->
+  <div class="modal fade" id="annotationHelpModal" tabindex="-1" role="dialog" aria-labelledby="annotationHelpModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="annotationHelpModalLabel">Annotation Help</h4>
+        </div>
+        <div class="modal-body">
+          <p>Annotating documents can be tricky, the meaning of each label is open to interpretation.
+             While you're free to choose an interpretion, the below descriptions are the intended method
+             of labeling each document.</p>
+          <hr />
+          {% for label in labels %}
+          <h4><i class="icon icon-{{ label.slug }}"></i> {{ label }}</h4>
+          <p>{{ label.description }}</p>
+          {% endfor %}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
 {% endblock %}
 
 {% block javascripts %}

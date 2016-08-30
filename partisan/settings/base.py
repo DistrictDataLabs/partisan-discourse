@@ -115,6 +115,7 @@ INSTALLED_APPS = [
     'django_gravatar',
 
     # Partisan Discourse apps
+    'arbiter',
     'corpus',
     'members',
 ]
@@ -276,6 +277,8 @@ ADMINS          = (
     ('Benjamin Bengfort', 'bbengfort@districtdatalabs.com'),
     ('Tony Ojeda', 'tojeda@districtdatalabs.com'),
     ('Rebecca Bilbro', 'rbilbro@districtdatalabs.com'),
+    ('Laura Lorenz', 'llorenz@districtdatalabs.com'),
+    ('Sam Goodgame', 'samuel.goodgame@gmail.com'),
 )
 
 SERVER_EMAIL    = 'DDL Admin <admin@districtdatalabs.com>'

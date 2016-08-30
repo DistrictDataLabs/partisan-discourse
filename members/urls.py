@@ -26,5 +26,5 @@ from members.views import *
 
 urlpatterns = (
     url(r'^members/$', MemberListView.as_view(), name='list'),
-    url(r'^(?P<slug>[\w-]+)/$', MemberView.as_view(), name='detail'),
+    url(r'^(?P<slug>[\w\.\-]+)/$', MemberView.as_view(), name='detail'),
 )

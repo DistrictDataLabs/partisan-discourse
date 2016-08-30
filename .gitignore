@@ -87,3 +87,10 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+# Corpora and Fixtures
+corpus/fixtures/debates
+corpus/fixtures/*.pickle
+
+# Mac Stuff
+.DS_Store
