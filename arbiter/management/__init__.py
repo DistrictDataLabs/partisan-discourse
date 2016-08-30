@@ -7,7 +7,7 @@
 # Copyright (C) 2016 District Data Labs
 # For license information, see LICENSE.txt
 #
-# ID: __init__.py [] benjamin@bengfort.com $
+# ID: __init__.py [feb4803] benjamin@bengfort.com $
 
 """
 A module that specifies Django management commands for the arbiter app.

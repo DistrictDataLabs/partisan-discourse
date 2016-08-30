@@ -7,7 +7,7 @@
 # Copyright (C) 2016 District Data Labs
 # For license information, see LICENSE.txt
 #
-# ID: models.py [] benjamin@bengfort.com $
+# ID: models.py [cd70726] benjamin@bengfort.com $
 
 """
 Model definitions for the arbiter app.

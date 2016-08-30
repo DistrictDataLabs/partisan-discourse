@@ -7,7 +7,7 @@
 # Copyright (C) 2016 District Data Labs
 # For license information, see LICENSE.txt
 #
-# ID: __init__.py [] benjamin@bengfort.com $
+# ID: __init__.py [cd70726] benjamin@bengfort.com $
 
 """
 A Django app that implements a MMS for the red/blue models.
