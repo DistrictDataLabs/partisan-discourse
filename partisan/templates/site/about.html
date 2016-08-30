@@ -1,0 +1,106 @@
+{% extends 'page.html' %}
+{% load staticfiles %}
+
+{% block content %}
+
+  <div class="jumbotron">
+    <div class="container">
+      <h1>About Partisan Discourse</h1>
+      <p>Learn about the team, motivation, and technology behind the Partisan Discourse application.</p>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+
+    <!-- Right Column -->
+    <div class="col-md-3">
+      <ul class="nav nav-pills nav-stacked">
+        <li role="presentation"><a href="#purpose">Purpose and Motivation</a></li>
+        <li role="presentation"><a href="#team">The Development Team</a></li>
+        <li role="presentation"><a href="#built-with">Built With Technology Credits</a></li>
+      </ul>
+    </div>
+
+    <!-- Left Column -->
+    <div class="col-md-9">
+
+      <div class="page-header" style="margin-top:0">
+        <h2 id="purpose" style="margin-top:0">Purpose and Motivation</h2>
+      </div>
+
+      <p class="lead">Partisan Discourse is a Django application designed to highlight the operation and management of multiple machine learning models in a web application.</p>
+
+      <p>This application is intended to show the operation of multiple machine learning models trained to predict the categorization of text documents similar to sentiment analysis, but in this case to detect partisanship. More than one model is at work in this application: an initial model trained on the transcripts of the Democratic and Republican debates, a global model trained on all document annotations, models trained by experts, and per-user models for all participants. The point isn't necessarily to meaningfullly detect partisanship but rather to provide an understandable framework for how machine learning works in web applications.</p>
+
+      <p>The original work on political classification using text modeling was performed by students in the Georgetown University Data Science Certificate Program. They described a method to classify text as &ldquo;red&rdquo; or &ldquo;blue&rdquo; based on a model trained on transcripts from the 2016 Presidential Candidate Debates. They applied the model to a variety of news sources to determine if they could detect bias. In the process of their exploration they noted that bias was subjective and that models could be influenced by that bias.</p>
+
+      <p>By allowing users to add their own documents and annotate them, we hope to demonstrate how web applications can learn and grow from user interaction as well as demonstrate how bias and subjectivity effect applications.</p>
+
+      <div class="page-header">
+        <h2 id="team">The Development Team</h2>
+      </div>
+
+      <p class="lead">Development and research of the Partisan Discourse application is incubated by <a href="http://www.districtdatalabs.com/">District Data Labs</a> as an open source web application.</p>
+
+      <h4>Core Team</h4>
+      <ul>
+        <li><a href="https://github.com/bbengfort/">Benjamin Bengfort <span class="text-info">@bbengfort</span></a></li>
+        <li><a href="https://github.com/lauralorenz">Laura Lorenz <span class="text-info">@lauralorenz</span></a></li>
+        <li><a href="https://github.com/samgoodgame">Sam Goodgame <span class="text-info">@samgoodgame</span></a></li>
+      </ul>
+
+      <h4>DDL Contributing Faculty</h4>
+      <ul>
+        <li><a href="https://github.com/rebeccabilbro">Rebecca Bilbro <span class="text-info">@rebeccabilbro</span></a></li>
+        <li><a href="https://github.com/ojedatony1616">Tony Ojeda <span class="text-info">@ojedatony1616</span></a></li>
+      </ul>
+
+      <h4>Open Source Contributors</h4>
+
+      <p>Partisan Discourse is an open source application, you can contribute by <a href="https://github.com/districtdatalabs/partisan-discourse/issues/new">opening an issue</a> or submitting a pull request. Please refer to <a href="http://partisan-discourse.readthedocs.io/en/latest/">the documentation</a> for contribution guidelines and getting started for development.</p>
+
+      <div class="page-header">
+        <h2 id="built-with">Built With Technology Credits</h2>
+      </div>
+
+      <p class="lead">We didn't develop Partisan Discourse from scratch, we used many open source technologies that we'd like to credit here.</p>
+
+      <h4>Back-End</h4>
+
+      <p>The backend is completely written in Python using Python tools!</p>
+
+      <ul>
+        <li>Django by the <a href="https://www.djangoproject.com/foundation/">Django Software Foundation</a> from <a href="https://www.djangoproject.com/">www.djangoproject.com</a> is licensed by the <a href="https://github.com/django/django/blob/master/LICENSE">Django BSD License</a></li>
+        <li>Django REST Framework by <a href="https://twitter.com/_tomchristie">Tom Christie</a> from <a href="http://www.django-rest-framework.org/">django-rest-framework.org</a> is licensed by the <a href="http://www.django-rest-framework.org/#license">DRF License</a></li>
+        <li>Scikit-Learn from <a href="http://scikit-learn.org/">scikit-learn.org</a> is licensed by the <a href="https://github.com/scikit-learn/scikit-learn/blob/master/COPYING">New BSD License</a></li>
+      </ul>
+
+      <h4>Front-End</h4>
+
+      <p>We are not designers, and the design of the website relies completely on Boostrap components!</p>
+
+      <ul>
+        <li>Bootstrap from <a href="http://getbootstrap.com/">getbootstrap.com</a> is licensed by the <a href="http://opensource.org/licenses/mit-license.html">MIT License</a></li>
+        <li>Yeti Bootswatch by <a href="http://thomaspark.co/">Thomas Park</a> from <a href="https://bootswatch.com/yeti/">bootswatch.com</a> is licensed by the <a href="http://opensource.org/licenses/mit-license.html">MIT License</a></li>
+        <li>jQuery by <a href="https://jquery.org/team/">the jQuery Foundation</a> from <a href="https://jquery.com/">jquery.com</a> is licensed by the <a href="https://jquery.org/license/">jQuery License</a></li>
+        <li>Underscore from <a href="http://underscorejs.org/">underscorejs.org</a> is licensed by the <a href="https://github.com/jashkenas/underscore/blob/master/LICENSE">Underscore License</a></li>
+      </ul>
+
+      <h4>Iconography</h4>
+
+      <p>Graphical elements take a lot of work to build and we appreciate those who allow us to use them!</p>
+
+      <ul>
+        <li>Font Awesome by Dave Gandy from <a href="http://fontawesome.io">fontawesome.io</a> is licensed by the <a href="http://opensource.org/licenses/mit-license.html">MIT License</a></li>
+        <li>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> are licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></li>
+      </ul>
+
+    </div>
+
+    <div class="clearfix" style="margin-bottom:60px;"></div>
+
+    </div>
+  </div><!-- container ends -->
+
+{% endblock %}

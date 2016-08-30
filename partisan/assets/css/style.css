@@ -84,3 +84,10 @@ div.header-buttons {
 .text-democratic {
     color: #008cba;
 }
+
+
+.jumbotron {
+    background-color: #008cba;
+    margin-top: -41px;
+    color: #FEFEFE;
+}
