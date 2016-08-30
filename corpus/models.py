@@ -113,7 +113,8 @@ class Label(TimeStampedModel):
     name      = models.CharField(max_length=64, unique=True)        # The name of the label
     slug      = AutoSlugField(populate_from='name', unique=True)    # A unique slug of the label
     parent    = models.ForeignKey('self', **nullable)               # If there is a label hierarchy
-    documents = models.ManyToManyField(
+    description = models.CharField(max_length=512, **nullable)      # Short description of what the labels means
+    documents   = models.ManyToManyField(
         'corpus.Document', through='corpus.Annotation', related_name='labels'
     )
 
