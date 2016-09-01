@@ -7,7 +7,8 @@
     "modified": "2016-07-18T14:56:26.708Z",
     "name": "USA Political Parties",
     "slug": "usa-political-parties",
-    "parent": null
+    "parent": null,
+    "description": null
   }
 },
 {
@@ -15,10 +16,11 @@
   "pk": 2,
   "fields": {
     "created": "2016-07-18T14:57:33.059Z",
-    "modified": "2016-07-18T14:57:33.062Z",
+    "modified": "2016-09-01T15:07:53.973Z",
     "name": "Democratic",
     "slug": "democratic",
-    "parent": 1
+    "parent": 1,
+    "description": "Choose this label if, in your opinion, this document demonstrates a bias, sentiment, perspective, or agenda that mostly aligns with the Democratic party."
   }
 },
 {
@@ -26,10 +28,11 @@
   "pk": 3,
   "fields": {
     "created": "2016-07-18T14:57:59.531Z",
-    "modified": "2016-07-18T14:57:59.534Z",
+    "modified": "2016-09-01T15:07:43.092Z",
     "name": "Republican",
     "slug": "republican",
-    "parent": 1
+    "parent": 1,
+    "description": "Choose this label if, in your opinion, this document demonstrates a bias, sentiment, perspective, or agenda that mostly aligns with the Republican party."
   }
 }
 ]
