@@ -1,0 +1,28 @@
+data:
+  image: postgres:9.5
+  command: /bin/sleep Inf
+db:
+  image: postgres:9.5
+  environment:
+    - POSTGRES_DB=partisan
+  ports:
+    - 5432:5432
+  volumes_from:
+    - data
+app:
+  build: .
+  dockerfile: Dockerfile-app
+  environment:
+    - DB_HOST=db
+    - WEB_CONCURRENCY=2
+    - DATABASE_URL=postgres://postgres@db/partisan
+    - DJANGO_SETTINGS_MODULE=partisan.settings.development
+    - SECRET_KEY="so many secrets"
+    - NLTK_DATA= /root/nltk_data
+  env_file: ./.env
+  ports:
+    - 8000:8000
+  volumes:
+    - .:/src/partisan-discourse
+  links:
+    - db:db

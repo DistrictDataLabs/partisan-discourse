@@ -1,0 +1,12 @@
+FROM django:python3
+RUN apt-get update && apt-get install -y\
+    libxml2-dev\
+    libxslt1-dev\
+    vim
+COPY requirements.txt /src/partisan-discourse/requirements.txt
+RUN pip install -r /src/partisan-discourse/requirements.txt
+VOLUME /src/partisan-discourse
+COPY bin/docker-entrypoint.sh /entrypoint.sh
+WORKDIR /src/partisan-discourse
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+ENTRYPOINT ["/entrypoint.sh"]
