@@ -30,8 +30,7 @@ DEBUG            = False
 ## Hosts
 ALLOWED_HOSTS    = [
     'partisan-discourse.herokuapp.com',
-    'partisan.districtdatalabs.com',
-    'partisan-discourse.districtdatalabs.com',
+    'partisan-discourse.com',
 ]
 
 ## Static files served by WhiteNoise
