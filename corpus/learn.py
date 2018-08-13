@@ -23,7 +23,7 @@ import unicodedata
 from nltk.corpus import wordnet as wn
 from sklearn.pipeline import Pipeline
 from sklearn.pipeline import FeatureUnion
-from sklearn.cross_validation import KFold
+from sklearn.model_selection import KFold
 from sklearn.decomposition import TruncatedSVD
 from sklearn.feature_extraction import DictVectorizer
 from sklearn.feature_extraction.text import TfidfVectorizer
