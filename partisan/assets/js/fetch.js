@@ -41,7 +41,7 @@
           "data": JSON.stringify(data),
           "contentType": "application/json"
       }).done(function(data) {
-        
+
           if (data.detail) {
             window.location = data.detail;
           } else {
@@ -50,7 +50,7 @@
 
       }).fail(function(xhr) {
           data = xhr.responseJSON;
-          console.log(data)
+          console.log(data);
 
           // Set the error for particular fields.
           $.each(data, function(key, val) {

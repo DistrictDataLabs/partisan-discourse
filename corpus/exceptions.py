@@ -36,3 +36,10 @@ class FetchError(CorpusException):
     Something went wrong trying to fetch a url using requests.
     """
     pass
+
+
+class NLTKError(CorpusException):
+    """
+    Something went wrong when using NLTK.
+    """
+    pass

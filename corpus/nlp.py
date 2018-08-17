@@ -21,6 +21,7 @@ import bs4
 import nltk
 
 from collections import Counter
+from corpus.exceptions import NLTKError
 from readability.readability import Document
 
 ##########################################################################
@@ -61,13 +62,16 @@ def preprocess(html):
     is a list of sentences, which is a list of tuples, where each tuple is a
     (token, part of speech) pair.
     """
-    return [
-        [
-            nltk.pos_tag(nltk.wordpunct_tokenize(sent))
-            for sent in nltk.sent_tokenize(paragraph)
+    try:
+        return [
+            [
+                nltk.pos_tag(nltk.wordpunct_tokenize(sent))
+                for sent in nltk.sent_tokenize(paragraph)
+            ]
+            for paragraph in para_tokenize(html)
         ]
-        for paragraph in para_tokenize(html)
-    ]
+    except Exception as e:
+        raise NLTKError("could not preprocess text: {}".format(str(e)))
 
 
 def word_vocab_count(text):
